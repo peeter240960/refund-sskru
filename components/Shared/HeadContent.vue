@@ -14,7 +14,10 @@
         ข้าพเจ้าขอรับรองว่า ข้าพเจ้าเป็นผู้กระทำการยืนยันตัวตน
         และยืนยันสิทธิ์นี้ด้วยตัวข้าพเจ้าเอง โดยข้าพเจ้าขอแสดงความประสงค์ดังนี้
       </p>
-      <div class="grid md:grid-cols-12 mt-5">
+      <div
+        class="grid md:grid-cols-12 mt-5"
+        v-if="getAccess.access === 'access'"
+      >
         <div class="col-span-1 text-5xl text-green-600 flex items-center">
           <!-- <i class="far fa-check-circle"></i> -->
           <font-awesome-icon :icon="['fa', 'check-circle']" />
@@ -31,8 +34,8 @@
           และสำหรับการตรวจสอบจากหน่วยงานที่เกี่ยวข้องต่อไป
         </div>
       </div>
-      <div class="grid md:grid-cols-12 mt-5">
-        <div class="col-span-1 text-5xl text-gray-400">
+      <div class="grid md:grid-cols-12 mt-5" v-else>
+        <div class="col-span-1 text-5xl text-red-600">
           <!-- <i class="far fa-times-circle"></i> -->
           <font-awesome-icon :icon="['fa', 'times-circle']" />
         </div>
@@ -48,7 +51,12 @@
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters('access', ['getAccess']),
+  },
+}
 </script>
 
 <style>

@@ -24,22 +24,14 @@
           <input
             id="sid"
             type="text"
-            class="
-              mt-1
-              block
-              bg-red-50
-              p-2
-              w-full
-              border-red-500 border border-2
-            "
+            class="mt-1 block p-2 w-full bg-gray-100"
             v-model="form.sid"
             required
             autofocus
           />
-          <small class="text-red-600"><b>Lor</b></small>
         </div>
 
-        <div>
+        <div class="mt-2">
           <label for="cid">รหัสบัตรประชาชน</label>
           <input
             id="cid"
@@ -51,7 +43,12 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-          <button class="px-3 py-2 bg-yellow-500 text-white rounded w-full">
+          <button
+            :class="`'px-3 py-2 bg-yellow-500 text-white rounded w-full ${
+              loading && 'opacity-50'
+            }`"
+            :disabled="loading"
+          >
             เข้าสู่ระบบ
           </button>
         </div>
@@ -66,7 +63,10 @@
           text-green-800
         "
       >
-        การเข้าใช้งานระบบด้วย Username และ Password
+        การเข้าใช้งานระบบด้วย <b class="font-bold">รหัสนักศึกษา</b> และ<b
+          class="font-bold"
+          >รหัสบัตรประชาชน</b
+        >
         ของท่านถือว่าเป็นการลงลายมือชื่อทางอิเล็กทรอนิกส์ ตามมาตรา ๙ ของ พ.ร.บ.
         ธุรกรรมทางอิเล็กทรอนิกส์ พ.ศ. ๒๕๔๔
         <br />
@@ -85,22 +85,23 @@ export default {
   layout: 'authLayout',
   data: () => ({
     form: { sid: null, sid: null },
+    loading: false,
   }),
   methods: {
-    submit() {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis repellendus optio ducimus dolore praesentium magnam nam? Tempore, a natus. Officia, dolore? Inventore enim doloremque iusto adipisci sit animi minima rem beatae nesciunt repellat, ullam magni fugit possimus, accusantium repudiandae repellendus nulla ab distinctio rerum, sequi delectus autem unde non sunt.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.$router.push('unconfirmed')
-        }
-      })
+    async submit() {
+      this.loading = true
+      try {
+        const user = await this.$axios.$post('api/login', this.form)
+        console.log(user)
+        // this.$router.push('unconfirmed')
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message,
+        })
+      }
+      this.loading = false
     },
   },
 }

@@ -50,11 +50,25 @@
           <div>
             <ul>
               <li>
-                <input type="radio" name="self_certificate_have" id="have" />
+                <input
+                  type="radio"
+                  name="have"
+                  v-model="getAccess.have"
+                  id="have"
+                  value="have"
+                  @change="setAccess({ have: 'have' })"
+                />
                 <label for="have">มีสิทธิเบิกจากหน่วยงานของรัฐ</label>
               </li>
               <li>
-                <input type="radio" name="self_certificate_have" id="nohave" />
+                <input
+                  type="radio"
+                  name="have"
+                  v-model="getAccess.have"
+                  id="nohave"
+                  value="nohave"
+                  @change="setAccess({ have: 'nohave' })"
+                />
                 <label for="nohave"> ไม่มีสิทธิเบิกจากหน่วยงานของรัฐ </label>
               </li>
             </ul>
@@ -67,14 +81,28 @@
           <div>
             <ul>
               <li>
-                <input type="radio" name="self_certificate_tun" id="tun" />
-                <label for="tun">
+                <input
+                  type="radio"
+                  name="funded"
+                  v-model="getAccess.funded"
+                  id="funded"
+                  value="funded"
+                  @change="setAccess({ funded: 'funded' })"
+                />
+                <label for="funded">
                   ได้รับทุนการศึกษายกเว้นค่าธรรมเนียมการศึกษา
                 </label>
               </li>
               <li>
-                <input type="radio" name="self_certificate_tun" id="notun" />
-                <label for="notun">
+                <input
+                  type="radio"
+                  name="funded"
+                  v-model="getAccess.funded"
+                  id="nofunded"
+                  value="nofunded"
+                  @change="setAccess({ funded: 'nofunded' })"
+                />
+                <label for="nofunded">
                   ไม่ได้รับทุนการศึกษายกเว้นค่าธรรมเนียมการศึกษา
                 </label>
               </li>
@@ -89,14 +117,28 @@
           <div>
             <ul>
               <li>
-                <input name="self_certificate_kys" type="radio" id="kys" />
-                <label for="kys">
+                <input
+                  name="loan"
+                  v-model="getAccess.loan"
+                  type="radio"
+                  id="loan"
+                  value="loan"
+                  @change="setAccess({ loan: 'loan' })"
+                />
+                <label for="loan">
                   กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)
                 </label>
               </li>
               <li>
-                <input name="self_certificate_kys" type="radio" id="nokys" />
-                <label for="nokys">
+                <input
+                  name="loan"
+                  v-model="getAccess.loan"
+                  type="radio"
+                  id="noloan"
+                  value="noloan"
+                  @change="setAccess({ loan: 'noloan' })"
+                />
+                <label for="noloan">
                   ไม่ได้กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)
                 </label>
               </li>
@@ -115,23 +157,20 @@
       <div class="grid grid-cols-12 gap-5">
         <div class="col-span-1 flex justify-center items-center">
           <font-awesome-icon
-            :icon="
-              from.access === 'access'
-                ? ['fa', 'check-circle']
-                : ['fa', 'times-circle']
-            "
+            :icon="['fa', 'check-circle']"
             :class="`text-5xl shadow-lg rounded-full text-${
-              from.access === 'access' ? 'green' : 'gray'
-            }-600`"
+              getAccess.access === 'access'
+                ? `green-600 border-2 border-green-800`
+                : 'gray-300'
+            }`"
             style="cursor: pointer"
-            @click="from.access = 'access'"
+            @click="setAccess({ access: 'access' })"
           />
           <input
             type="radio"
             name="status_request"
             id="request"
             value="access"
-            v-model="from.access"
             class="opacity-0"
           />
         </div>
@@ -149,23 +188,20 @@
         </label>
         <div class="col-span-1 flex justify-center items-center">
           <font-awesome-icon
-            :icon="
-              from.access === 'noaccess'
-                ? ['fa', 'check-circle']
-                : ['fa', 'times-circle']
-            "
+            :icon="['fa', 'times-circle']"
             :class="`text-5xl shadow-lg rounded-full text-${
-              from.access === 'noaccess' ? 'green' : 'gray'
-            }-600`"
+              getAccess.access === 'noaccess'
+                ? `red-600 border-2 border-red-800`
+                : 'gray-300'
+            }`"
             style="cursor: pointer"
-            @click="from.access = 'noaccess'"
+            @click="setAccess({ access: 'noaccess' })"
           />
           <input
             type="radio"
             name="status_request"
             id="norequest"
             value="noaccess"
-            v-model="from.access"
             class="opacity-0"
           />
         </div>
@@ -199,6 +235,7 @@
 <script>
 import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudentDetails from '~/components/Shared/StudentDetails.vue'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: { SelfCertificate, StudentDetails },
   data: () => ({
@@ -206,8 +243,13 @@ export default {
       access: 'access',
     },
   }),
+  computed: {
+    ...mapGetters('access', ['getAccess']),
+  },
   methods: {
+    ...mapMutations('access', ['setAccess', 'setStep']),
     submit() {
+      this.setStep(2)
       this.$router.push('confirme')
     },
   },

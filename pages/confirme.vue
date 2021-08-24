@@ -32,12 +32,20 @@ import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudyDetails from '~/components/Shared/StudyDetails.vue'
 import HeadContent from '~/components/Shared/HeadContent.vue'
 import Swal from 'sweetalert2'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     StudentDetails,
     SelfCertificate,
     StudyDetails,
     HeadContent,
+  },
+  computed: {
+    ...mapGetters('access', ['getStep']),
+  },
+  mounted() {
+    console.log(this.getStep)
+    if (this.getStep < 2) this.$router.push('unconfirmed')
   },
   methods: {
     submit() {

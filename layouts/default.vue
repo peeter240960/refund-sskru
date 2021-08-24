@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="bg-white p-5 pb-0 shadow-lg top-0">
+    <header class="bg-white p-5 pb-2 pb-0 shadow-lg top-0">
       <div class="mx-auto" style="max-width: 1024px">
         <b>
           <p class="text-lg md:text-2xl">
@@ -19,20 +19,25 @@
             text-center
           "
         >
-          <nuxt-link class="py-1 mr-5" to="unconfirmed">
+          <!-- <nuxt-link class="py-1 mr-5" to="unconfirmed">
             <span :class="$route.path === '/unconfirmed' && 'font-bold'">
               ตรวจสอบข้อมูล
             </span>
-          </nuxt-link>
+          </nuxt-link> -->
           <nuxt-link class="py-1 mr-5" to="confirme">
-            <span :class="$route.path === '/confirme' && 'font-bold'">
+            <span
+              :class="
+                ($route.path === '/confirme' ||
+                  $route.path === '/unconfirmed' ||
+                  $route.path === '/confirmed') &&
+                'font-bold'
+              "
+            >
               ยืนยันสิทธิ์
             </span>
           </nuxt-link>
-          <nuxt-link class="py-1 mr-5" to="confirmed">
-            <span :class="$route.path === '/confirmed' && 'font-bold'">
-              พิมพ์ใบลงทะเบียน
-            </span>
+          <nuxt-link class="py-1 mr-5" to="/">
+            <span> พิมพ์ใบลงทะเบียน </span>
           </nuxt-link>
           <nuxt-link class="py-1 mr-5" to="refund">
             <span :class="$route.path === '/refund' && 'font-bold'">
@@ -111,7 +116,7 @@ export default {
 
 <style scoped>
 #defaultLayout {
-  /* background: url('~/static/images/bg.jpg'); */
-  background: #efefef;
+  background: url('~/static/images/bgo.jpg');
+  background-size: cover;
 }
 </style>
