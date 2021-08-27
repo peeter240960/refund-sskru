@@ -9,6 +9,7 @@
           <small class="text-sm md:text-lg">มหาวิทยาลัยราชภัฏศรีสะเกษ</small>
         </b>
         <div
+          v-if="me && me.role == 'admin'"
           class="
             grid
             sm:flex
@@ -19,11 +20,54 @@
             text-center
           "
         >
-          <!-- <nuxt-link class="py-1 mr-5" to="unconfirmed">
-            <span :class="$route.path === '/unconfirmed' && 'font-bold'">
-              ตรวจสอบข้อมูล
-            </span>
-          </nuxt-link> -->
+          <nuxt-link class="py-1 mr-5" to="/admin/students">
+            <b> ข้อมูลนักศึกษา </b>
+          </nuxt-link>
+          <button class="pb-2 pt-5 sm:hidden">
+            <span @click="logoutSubmit"> ออกจากระบบ </span>
+          </button>
+          <!-- <i class="fas fa-chevron-down"></i> -->
+          <div
+            class="icon ml-auto relative hidden sm:block"
+            style="cursor: pointer"
+            @click="show = !show"
+          >
+            <font-awesome-icon :icon="['fa', 'chevron-down']" />
+            <div
+              v-if="show"
+              id="content"
+              class="
+                p-3
+                rounded-lg
+                border
+                shadow-lg
+                absolute
+                right-0
+                bg-white
+                w-44
+              "
+            >
+              <button
+                class="z-50 w-full h-full py-1 hover:bg-gray-100"
+                @click="logout"
+              >
+                ออกจากระบบ
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          v-else-if="me"
+          class="
+            grid
+            sm:flex
+            items-center
+            justify-center
+            sm:justify-start
+            mt-8
+            text-center
+          "
+        >
           <nuxt-link class="py-1 mr-5" to="confirme">
             <span
               :class="
@@ -76,22 +120,6 @@
               </button>
             </div>
           </div>
-          <!-- <dropdown
-            class="
-              ml-auto
-              hidden
-              sm:block
-              cursor-pointer
-              hover:bg-gray-100
-              px-2
-              rounded-full
-            "
-          >
-            <template #trigger> <i class="fas fa-chevron-down"></i> </template>
-            <template #content>
-              <dropdown-link @click="logout"> ออกจากระบบ </dropdown-link>
-            </template>
-          </dropdown> -->
         </div>
       </div>
     </header>
@@ -101,14 +129,25 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
+  name: 'defaultLayout',
+  middleware: 'authen',
   data: () => ({
     show: false,
   }),
+  computed: {
+    ...mapGetters('authen', ['me']),
+  },
   methods: {
-    logout() {
-      console.log('logout')
-      this.$router.push('/')
+    ...mapActions('authen', ['logout']),
+    async logoutSubmit() {
+      try {
+        await this.logout()
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
 }

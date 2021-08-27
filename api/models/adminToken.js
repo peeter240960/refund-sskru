@@ -6,6 +6,6 @@ const userSchema = new Schema(
         token: { type: String, required: true },
     }, { timestamps: true }
 );
-userSchema.index({ createdAt: 1 }, { expireAfterSeconds: 6 * 60 * 60 });
+userSchema.index({ createdAt: 1 }, { expireAfterSeconds: 1000 * 60 });
 
-module.exports = mongoose.model('Admin', userSchema, 'admins');
+module.exports = mongoose.model('AdminToken', userSchema, 'admin_tokens');

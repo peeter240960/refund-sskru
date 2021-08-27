@@ -235,7 +235,7 @@
 <script>
 import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudentDetails from '~/components/Shared/StudentDetails.vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   components: { SelfCertificate, StudentDetails },
   data: () => ({
@@ -243,11 +243,15 @@ export default {
       access: 'access',
     },
   }),
+  fetch() {
+    this.getMe()
+  },
   computed: {
     ...mapGetters('access', ['getAccess']),
   },
   methods: {
     ...mapMutations('access', ['setAccess', 'setStep']),
+    ...mapActions('access', ['getMe']),
     submit() {
       this.setStep(2)
       this.$router.push('confirme')

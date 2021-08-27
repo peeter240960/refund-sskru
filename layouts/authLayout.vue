@@ -3,6 +3,11 @@
     <nuxt />
   </main>
 </template>
+<script>
+export default {
+  name: 'authLayout',
+}
+</script>
 
 <style scoped>
 #authLayout {
