@@ -109,7 +109,7 @@ export default {
       this.loading = true
       try {
         const user = await this.$axios.$post('api/login', this.form)
-        if (user.result.role === 'admin') {
+        if (user.result.role && user.result.role === 'admin') {
           this.$router.push('/admin/students')
         } else {
           this.$router.push('/unconfirmed')

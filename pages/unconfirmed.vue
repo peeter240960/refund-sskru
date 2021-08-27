@@ -243,15 +243,12 @@ export default {
       access: 'access',
     },
   }),
-  fetch() {
-    this.getMe()
-  },
   computed: {
     ...mapGetters('access', ['getAccess']),
+    ...mapGetters('authen', ['me']),
   },
   methods: {
     ...mapMutations('access', ['setAccess', 'setStep']),
-    ...mapActions('access', ['getMe']),
     submit() {
       this.setStep(2)
       this.$router.push('confirme')

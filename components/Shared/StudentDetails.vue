@@ -5,31 +5,31 @@
       <div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">เลขประจำตัวประชาชน</div>
-          <div></div>
+          <div>{{ me.cid }}</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">รหัสนักศึกษา</div>
-          <div></div>
+          <div>{{ me.sid }}</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">คำนำหน้า</div>
-          <div></div>
+          <div>{{ me.title }}</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">ชื่อ</div>
-          <div></div>
+          <div>{{ me.firstname }}</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">นามสกุล</div>
-          <div></div>
+          <div>{{ me.lastname }}</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">คณะ</div>
-          <div></div>
+          <div>{{ me.faculty }}</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">หลักสูตร</div>
-          <div></div>
+          <div>{{ me.program }}</div>
         </div>
       </div>
     </div>
@@ -37,7 +37,12 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters('authen', ['me']),
+  },
+}
 </script>
 
 <style>

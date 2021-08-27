@@ -58,7 +58,7 @@ app.post('/login', async (req, res) => {
     } else {
         let data = await getUserFromApi(token, { cid, sid })
         if (data.success && data.result.students.length > 0) {
-            siginToken(data.result.students[0], res)
+            siginToken(user, res)
         } else {
             res.status(401).json({ success: false, message: 'ข้อมูลของคุณไม่ถูกต้อง' })
             return
