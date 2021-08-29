@@ -96,18 +96,9 @@
     <div class="w-full overflow-x-scroll">
       <table>
         <thead>
-          <tr class="bg-gray-100">
+          <tr class="bg-gray-100 uppercase text-sm">
             <th class="px-3 border py-2 text-left" style="min-width: 200px">
               id
-            </th>
-            <th class="px-3 border py-2 text-left" style="min-width: 200px">
-              seq
-            </th>
-            <th class="px-3 border py-2 text-left" style="min-width: 250px">
-              university
-            </th>
-            <th class="px-3 border py-2 text-left" style="min-width: 200px">
-              campus
             </th>
             <th class="px-3 border py-2 text-left" style="min-width: 200px">
               cid
@@ -124,7 +115,7 @@
             <th class="px-3 border py-2 text-left" style="min-width: 200px">
               lastname
             </th>
-            <th class="px-3 border py-2 text-left" style="min-width: 300px">
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
               faculty
             </th>
             <th class="px-3 border py-2 text-left" style="min-width: 200px">
@@ -157,6 +148,72 @@
             <th class="px-3 border py-2 text-left" style="min-width: 200px">
               confirm
             </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              right
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              regisfee
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              entfee
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              govdiscount
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              unidiscount
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              discount
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              tuitionbalance
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              paidtype
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              paid
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              refund
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              timestamp
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              confirmlog
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              macaddress
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              status
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              address
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              bookbank
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              bank
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              branch
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              bookbanktype
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              role
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              tel
+            </th>
+            <th class="px-3 border py-2 text-left" style="min-width: 200px">
+              email
+            </th>
             <th
               class="sticky right-0 bg-white border border-b-0"
               style="min-width: 120px"
@@ -172,9 +229,6 @@
             class="border-2 border-b-2"
           >
             <td class="p-2">{{ item.id }}</td>
-            <td class="p-2">{{ item.seq }}</td>
-            <td class="p-2">{{ item.university }}</td>
-            <td class="p-2">{{ item.campus }}</td>
             <td class="p-2">{{ item.cid }}</td>
             <td class="p-2">{{ item.sid }}</td>
             <td class="p-2">{{ item.title }}</td>
@@ -191,6 +245,28 @@
             <td class="p-2">{{ item.prefer }}</td>
             <td class="p-2">{{ item.level }}</td>
             <td class="p-2">{{ item.confirm }}</td>
+            <td class="p-2">{{ item.right }}</td>
+            <td class="p-2">{{ item.regisfee }}</td>
+            <td class="p-2">{{ item.entfee }}</td>
+            <td class="p-2">{{ item.govdiscount }}</td>
+            <td class="p-2">{{ item.unidiscount }}</td>
+            <td class="p-2">{{ item.discount }}</td>
+            <td class="p-2">{{ item.tuitionbalance }}</td>
+            <td class="p-2">{{ item.paidtype }}</td>
+            <td class="p-2">{{ item.paid }}</td>
+            <td class="p-2">{{ item.refund }}</td>
+            <td class="p-2">{{ item.timestamp }}</td>
+            <td class="p-2">{{ item.confirmlog }}</td>
+            <td class="p-2">{{ item.macaddress }}</td>
+            <td class="p-2">{{ item.status }}</td>
+            <td class="p-2">{{ item.address }}</td>
+            <td class="p-2">{{ item.bookbank }}</td>
+            <td class="p-2">{{ item.bank }}</td>
+            <td class="p-2">{{ item.branch }}</td>
+            <td class="p-2">{{ item.bookbanktype }}</td>
+            <td class="p-2">{{ item.role }}</td>
+            <td class="p-2">{{ item.tel }}</td>
+            <td class="p-2">{{ item.email }}</td>
             <td
               class="
                 sticky
@@ -269,7 +345,7 @@
           <b>Update</b>
         </header>
         <div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">id</b>
             <input
               type="text"
@@ -279,38 +355,7 @@
               v-model="form.id"
             />
           </div>
-
-          <div class="mt-5">
-            <b class="text-sm uppercase text-gray-600">seq</b>
-            <input
-              type="text"
-              name="seq"
-              id="seq"
-              class="py-1 px-3 bg-gray-100 w-full"
-              v-model="form.seq"
-            />
-          </div>
-          <div class="mt-5">
-            <b class="text-sm uppercase text-gray-600">university</b>
-            <input
-              type="text"
-              name="university"
-              id="university"
-              class="py-1 px-3 bg-gray-100 w-full"
-              v-model="form.university"
-            />
-          </div>
-          <div class="mt-5">
-            <b class="text-sm uppercase text-gray-600">campus</b>
-            <input
-              type="text"
-              name="campus"
-              id="campus"
-              class="py-1 px-3 bg-gray-100 w-full"
-              v-model="form.campus"
-            />
-          </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">cid</b>
             <input
               type="text"
@@ -320,7 +365,7 @@
               v-model="form.cid"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">sid</b>
             <input
               type="text"
@@ -330,7 +375,7 @@
               v-model="form.sid"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">title</b>
             <input
               type="text"
@@ -340,7 +385,7 @@
               v-model="form.title"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">firstname</b>
             <input
               type="text"
@@ -350,7 +395,7 @@
               v-model="form.firstname"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">lastname</b>
             <input
               type="text"
@@ -360,7 +405,7 @@
               v-model="form.lastname"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">faculty</b>
             <input
               type="text"
@@ -370,7 +415,7 @@
               v-model="form.faculty"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">program</b>
             <input
               type="text"
@@ -380,7 +425,7 @@
               v-model="form.program"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">loantype</b>
             <input
               type="text"
@@ -390,7 +435,7 @@
               v-model="form.loantype"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">scholarshiptype</b>
             <input
               type="text"
@@ -400,7 +445,7 @@
               v-model="form.scholarshiptype"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">scholarship</b>
             <input
               type="text"
@@ -410,7 +455,7 @@
               v-model="form.scholarship"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">tuitionfee</b>
             <input
               type="text"
@@ -420,7 +465,7 @@
               v-model="form.tuitionfee"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">cidvalid</b>
             <input
               type="text"
@@ -430,7 +475,7 @@
               v-model="form.cidvalid"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">ciddup</b>
             <input
               type="text"
@@ -440,7 +485,7 @@
               v-model="form.ciddup"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">prefer</b>
             <input
               type="text"
@@ -450,7 +495,7 @@
               v-model="form.prefer"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">level</b>
             <input
               type="text"
@@ -460,7 +505,7 @@
               v-model="form.level"
             />
           </div>
-          <div class="mt-5">
+          <div class="mt">
             <b class="text-sm uppercase text-gray-600">confirm</b>
             <input
               type="text"
@@ -468,6 +513,226 @@
               id="confirm"
               class="py-1 px-3 bg-gray-100 w-full"
               v-model="form.confirm"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">right</b>
+            <input
+              type="text"
+              name="right"
+              id="right"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.right"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">regisfee</b>
+            <input
+              type="text"
+              name="regisfee"
+              id="regisfee"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.regisfee"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">entfee</b>
+            <input
+              type="text"
+              name="entfee"
+              id="entfee"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.entfee"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">govdiscount</b>
+            <input
+              type="text"
+              name="govdiscount"
+              id="govdiscount"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.govdiscount"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">unidiscount</b>
+            <input
+              type="text"
+              name="unidiscount"
+              id="unidiscount"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.unidiscount"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">discount</b>
+            <input
+              type="text"
+              name="discount"
+              id="discount"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.discount"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">tuitionbalance</b>
+            <input
+              type="text"
+              name="tuitionbalance"
+              id="tuitionbalance"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.tuitionbalance"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">paidtype</b>
+            <input
+              type="text"
+              name="paidtype"
+              id="paidtype"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.paidtype"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">paid</b>
+            <input
+              type="text"
+              name="paid"
+              id="paid"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.paid"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">refund</b>
+            <input
+              type="text"
+              name="refund"
+              id="refund"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.refund"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">timestamp</b>
+            <input
+              type="text"
+              name="timestamp"
+              id="timestamp"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.timestamp"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">confirmlog</b>
+            <input
+              type="text"
+              name="confirmlog"
+              id="confirmlog"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.confirmlog"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">macaddress</b>
+            <input
+              type="text"
+              name="macaddress"
+              id="macaddress"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.macaddress"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">status</b>
+            <input
+              type="text"
+              name="status"
+              id="status"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.status"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">address</b>
+            <input
+              type="text"
+              name="address"
+              id="address"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.address"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">bookbank</b>
+            <input
+              type="text"
+              name="bookbank"
+              id="bookbank"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.bookbank"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">bank</b>
+            <input
+              type="text"
+              name="bank"
+              id="bank"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.bank"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">branch</b>
+            <input
+              type="text"
+              name="branch"
+              id="branch"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.branch"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">bookbanktype</b>
+            <input
+              type="text"
+              name="bookbanktype"
+              id="bookbanktype"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.bookbanktype"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">role</b>
+            <input
+              type="text"
+              name="role"
+              id="role"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.role"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">tel</b>
+            <input
+              type="text"
+              name="tel"
+              id="tel"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.tel"
+            />
+          </div>
+          <div class="mt">
+            <b class="text-sm uppercase text-gray-600">email</b>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              class="py-1 px-3 bg-gray-100 w-full"
+              v-model="form.email"
             />
           </div>
         </div>
@@ -695,27 +960,45 @@ export default {
       this.toJson(this.file).then((data) => {
         data.forEach((element, index) => {
           this.userData.push({
-            id: element.id || null,
-            seq: element.seq || null,
-            university: element.university || null,
-            campus: element.campus || null,
-            cid: element.cid || null,
-            sid: element.sid || null,
-            title: element.title || null,
-            firstname: element.firstname || null,
-            lastname: element.lastname || null,
-            faculty: element.faculty || null,
-            program: element.program || null,
-            loantype: element.loantype || null,
-            scholarshiptype: element.scholarshiptype || null,
-            scholarship: element.scholarship || null,
-            tuitionfee: element.tuitionfee || null,
-            cidvalid: element.cidvalid || null,
-            ciddup: element.ciddup || null,
-            prefer: element.prefer || null,
-            level: element.level || null,
-            created_at: element.created_at || new Date().toISOString(),
-            updated_at: element.updated_at || new Date().toISOString(),
+            id: element.id,
+            cid: element.cid,
+            sid: element.sid,
+            title: element.title,
+            firstname: element.firstname,
+            lastname: element.lastname,
+            faculty: element.faculty,
+            program: element.program,
+            loantype: element.loantype,
+            scholarshiptype: element.scholarshiptype,
+            scholarship: element.scholarship,
+            tuitionfee: element.tuitionfee,
+            cidvalid: element.cidvalid,
+            ciddup: element.ciddup,
+            prefer: element.prefer,
+            level: element.level,
+            confirm: element.confirm,
+            right: element.right,
+            regisfee: element.regisfee,
+            entfee: element.entfee,
+            govdiscount: element.govdiscount,
+            unidiscount: element.unidiscount,
+            discount: element.discount,
+            tuitionbalance: element.tuitionbalance,
+            paidtype: element.paidtype,
+            paid: element.paid,
+            refund: element.refund,
+            timestamp: element.timestamp,
+            confirmlog: element.confirmlog,
+            macaddress: element.macaddress,
+            status: element.status,
+            address: element.address,
+            bookbank: element.bookbank,
+            bank: element.bank,
+            branch: element.branch,
+            bookbanktype: element.bookbanktype,
+            role: element.role,
+            tel: element.tel,
+            email: element.email,
           })
         })
       })

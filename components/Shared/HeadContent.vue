@@ -16,7 +16,7 @@
       </p>
       <div
         class="grid md:grid-cols-12 mt-5"
-        v-if="getAccess.access === 'access'"
+        v-if="getAccess.access == 1"
       >
         <div class="col-span-1 text-5xl text-green-600 flex items-center">
           <!-- <i class="far fa-check-circle"></i> -->

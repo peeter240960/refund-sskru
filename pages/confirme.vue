@@ -32,8 +32,9 @@ import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudyDetails from '~/components/Shared/StudyDetails.vue'
 import HeadContent from '~/components/Shared/HeadContent.vue'
 import Swal from 'sweetalert2'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
+  middleware: 'unconfirmed',
   components: {
     StudentDetails,
     SelfCertificate,
@@ -42,12 +43,15 @@ export default {
   },
   computed: {
     ...mapGetters('access', ['getStep']),
+    ...mapGetters('access', ['getAccess']),
+    ...mapGetters('authen', ['me']),
   },
   mounted() {
     console.log(this.getStep)
     if (this.getStep < 2) this.$router.push('unconfirmed')
   },
   methods: {
+    ...mapMutations('authen', ['setAuth']),
     submit() {
       Swal.fire({
         html: `ข้าพเจ้ามีความประสงค์จะ<br/>ยื่นความประสงค์ยืนยันสิทธิ์ส่วน<br/>ลดค่าเล่าเรียน<br/><br/>หรือหากไม่มีความประสงค์<br/>กรุณากดปุ่ม "Cancel"`,
@@ -56,9 +60,31 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ok',
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          this.$router.push('confirmed')
+          try {
+            await this.$axios.$post('/api/admin/student_create', {
+              students: [
+                {
+                  cid: this.me.cid,
+                  right: this.getAccess.right,
+                  scholarshiptype: this.getAccess.scholarshiptype,
+                  loantype: this.getAccess.loantype,
+                  confirm: this.getAccess.access,
+                  status: 1,
+                },
+              ],
+            })
+            this.setAuth({ ...this.me, status: 1 })
+            this.$router.push('confirmed')
+          } catch (err) {
+            console.log('create user failed', err.message)
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err?.response?.data?.message,
+            })
+          }
         }
       })
     },

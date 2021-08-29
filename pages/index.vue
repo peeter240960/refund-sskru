@@ -24,6 +24,7 @@
           <input
             id="sid"
             type="text"
+            name="sid"
             class="mt-1 block p-2 w-full bg-gray-100"
             v-model="form.sid"
             required
@@ -36,9 +37,11 @@
           <input
             id="cid"
             type="password"
+            name="cid"
             class="mt-1 block bg-gray-100 p-2 w-full"
             v-model="form.cid"
             required
+            autocomplete="on"
           />
         </div>
 

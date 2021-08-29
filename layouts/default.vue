@@ -80,10 +80,18 @@
               ยืนยันสิทธิ์
             </span>
           </nuxt-link>
-          <nuxt-link class="py-1 mr-5" to="/">
+          <nuxt-link
+            v-if="me && me.status && me.status >= 1"
+            class="py-1 mr-5"
+            to="/"
+          >
             <span> พิมพ์ใบลงทะเบียน </span>
           </nuxt-link>
-          <nuxt-link class="py-1 mr-5" to="refund">
+          <nuxt-link
+            v-if="me && me.status && me.status >= 1"
+            class="py-1 mr-5"
+            to="refund"
+          >
             <span :class="$route.path === '/refund' && 'font-bold'">
               ขอเงินคืน
             </span>

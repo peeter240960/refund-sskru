@@ -11,6 +11,7 @@ const qs = require('qs');
 const authen = require('./middlewares/authen')
 const jwt = require('jsonwebtoken');
 const admin = require('./middlewares/admin')
+const getMAC = require('getmac').default
 
 app.use(cookieParser());
 app.use(express.json({ limit: '100mb' }));
@@ -68,6 +69,9 @@ app.post('/login', async (req, res) => {
         let data = await getUserFromApi(token, { cid, sid })
         if (data.success && data.result.students.length > 0) {
             if (data.result.students[0].ciddup != 1 || (data.result.students[0].prefer == 1 && data.result.students[0].ciddup == 1)) {
+                if (!user.status || user.status < 1) {
+                    await user.updateOne({ macaddress: getMAC(), timestamp: new Date().getTime() })
+                }
                 siginToken(user, res)
             } else {
                 res.status(401).json({
@@ -85,7 +89,8 @@ app.post('/login', async (req, res) => {
 
 })
 app.post('/createadmin', async (req, res) => {
-    const { cid, sid } = req.body
+    const { cid, sid, secret } = req.body
+    if (secret != secretToken) return res.json({ success: false, result: null, message: "Unauthorize" })
     const user = await User.create({ cid, sid, role: "admin" })
     res.json({ success: true, result: user })
 })
@@ -93,7 +98,7 @@ app.get('/get_server_process', authen, async (req, res) => {
     const { type } = req.query
     const server_process = await ServerProcess.findOne({ type, active: true })
     if (server_process && server_process.max < server_process.current) {
-        await server_process.update({ max: 1, current: 1, active: false })
+        await server_process.updateOne({ max: 1, current: 1, active: false })
     }
     res.json({ success: true, result: server_process ? server_process : { max: 1, current: 1, active: false } })
 })
@@ -106,7 +111,6 @@ app.delete('/logout', authen, async (req, res) => {
     res.clearCookie('access_token')
     res.json({ success: true })
 })
-
 app.get('/admin/students', [authen, admin], async (req, res) => {
     let { page, term } = req.query
     const options = {
@@ -130,7 +134,7 @@ app.get('/admin/students', [authen, admin], async (req, res) => {
     }
     res.json({ success: true, result: user })
 })
-app.post('/admin/student_create', [authen, admin], async (req, res) => {
+app.post('/admin/student_create', authen, async (req, res) => {
     const { students } = req.body
     let checkStudent
     let errors = []
@@ -151,7 +155,7 @@ app.post('/admin/student_create', [authen, admin], async (req, res) => {
         }
         if (checkStudent) {
             try {
-                await checkStudent.update({ ...student })
+                await checkStudent.updateOne({ ...student })
                 console.log('-- update student success --');
             } catch (err) {
                 errors.push({

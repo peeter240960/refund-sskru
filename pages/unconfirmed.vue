@@ -25,18 +25,26 @@
         <div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
             <div class="font-bold">ค่าธรรมเนียมการศึกษา</div>
-            <div></div>
+            <div>{{ me.regisfee }}</div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
             <div class="font-bold">
               ค่าธรรมเนียมการศึกษาแรกเข้า <br />
               (ค่าขึ้นทะเบียนนักศึกษาใหม่)
             </div>
-            <div></div>
+            <div>{{ me.entfee }}</div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
             <div class="font-bold">สถานะ</div>
-            <div></div>
+            <div>
+              {{
+                me.paidtype == 0
+                  ? 'ยังไม่จ่าย'
+                  : me.paidtype == 1
+                  ? 'จ่ายแล้ว'
+                  : 'อื่น ๆ'
+              }}
+            </div>
           </div>
         </div>
       </div>
@@ -52,24 +60,24 @@
               <li>
                 <input
                   type="radio"
-                  name="have"
-                  v-model="getAccess.have"
-                  id="have"
-                  value="have"
-                  @change="setAccess({ have: 'have' })"
+                  name="right"
+                  v-model="getAccess.right"
+                  id="right"
+                  value="1"
+                  @change="setAccess({ right: 1 })"
                 />
-                <label for="have">มีสิทธิเบิกจากหน่วยงานของรัฐ</label>
+                <label for="right">มีสิทธิเบิกจากหน่วยงานของรัฐ</label>
               </li>
               <li>
                 <input
                   type="radio"
-                  name="have"
-                  v-model="getAccess.have"
-                  id="nohave"
-                  value="nohave"
-                  @change="setAccess({ have: 'nohave' })"
+                  name="right"
+                  v-model="getAccess.right"
+                  id="noright"
+                  value="0"
+                  @change="setAccess({ right: 0 })"
                 />
-                <label for="nohave"> ไม่มีสิทธิเบิกจากหน่วยงานของรัฐ </label>
+                <label for="noright"> ไม่มีสิทธิเบิกจากหน่วยงานของรัฐ </label>
               </li>
             </ul>
           </div>
@@ -83,26 +91,13 @@
               <li>
                 <input
                   type="radio"
-                  name="funded"
-                  v-model="getAccess.funded"
-                  id="funded"
-                  value="funded"
-                  @change="setAccess({ funded: 'funded' })"
+                  name="scholarshiptype"
+                  v-model="getAccess.scholarshiptype"
+                  id="scholarshiptype"
+                  value="0"
+                  @change="setAccess({ scholarshiptype: 0 })"
                 />
-                <label for="funded">
-                  ได้รับทุนการศึกษายกเว้นค่าธรรมเนียมการศึกษา
-                </label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  name="funded"
-                  v-model="getAccess.funded"
-                  id="nofunded"
-                  value="nofunded"
-                  @change="setAccess({ funded: 'nofunded' })"
-                />
-                <label for="nofunded">
+                <label for="scholarshiptype">
                   ไม่ได้รับทุนการศึกษายกเว้นค่าธรรมเนียมการศึกษา
                 </label>
               </li>
@@ -118,27 +113,27 @@
             <ul>
               <li>
                 <input
-                  name="loan"
-                  v-model="getAccess.loan"
+                  name="loantype"
+                  v-model="getAccess.loantype"
                   type="radio"
-                  id="loan"
-                  value="loan"
-                  @change="setAccess({ loan: 'loan' })"
+                  id="loantype"
+                  value="1"
+                  @change="setAccess({ loantype: 1 })"
                 />
-                <label for="loan">
+                <label for="loantype">
                   กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)
                 </label>
               </li>
               <li>
                 <input
-                  name="loan"
-                  v-model="getAccess.loan"
+                  name="loantype"
+                  v-model="getAccess.loantype"
                   type="radio"
-                  id="noloan"
-                  value="noloan"
-                  @change="setAccess({ loan: 'noloan' })"
+                  id="noloantype"
+                  value="0"
+                  @change="setAccess({ loantype: 0 })"
                 />
-                <label for="noloan">
+                <label for="noloantype">
                   ไม่ได้กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)
                 </label>
               </li>
@@ -159,18 +154,18 @@
           <font-awesome-icon
             :icon="['fa', 'check-circle']"
             :class="`text-5xl shadow-lg rounded-full text-${
-              getAccess.access === 'access'
+              getAccess.access == 1
                 ? `green-600 border-2 border-green-800`
                 : 'gray-300'
             }`"
             style="cursor: pointer"
-            @click="setAccess({ access: 'access' })"
+            @click="setAccess({ access: 1 })"
           />
           <input
             type="radio"
             name="status_request"
             id="request"
-            value="access"
+            value="1"
             class="opacity-0"
           />
         </div>
@@ -190,18 +185,18 @@
           <font-awesome-icon
             :icon="['fa', 'times-circle']"
             :class="`text-5xl shadow-lg rounded-full text-${
-              getAccess.access === 'noaccess'
+              getAccess.access == 0
                 ? `red-600 border-2 border-red-800`
                 : 'gray-300'
             }`"
             style="cursor: pointer"
-            @click="setAccess({ access: 'noaccess' })"
+            @click="setAccess({ access: 0 })"
           />
           <input
             type="radio"
             name="status_request"
             id="norequest"
-            value="noaccess"
+            value="0"
             class="opacity-0"
           />
         </div>
@@ -235,8 +230,9 @@
 <script>
 import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudentDetails from '~/components/Shared/StudentDetails.vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
+  middleware: 'unconfirmed',
   components: { SelfCertificate, StudentDetails },
   data: () => ({
     from: {
@@ -244,8 +240,17 @@ export default {
     },
   }),
   computed: {
-    ...mapGetters('access', ['getAccess']),
+    ...mapGetters('access', ['getAccess', 'getStep']),
     ...mapGetters('authen', ['me']),
+  },
+  mounted() {
+    if (this.getStep <= 1) {
+      this.setAccess({
+        right: this.me.right,
+        scholarshiptype: this.me.scholarshiptype,
+        loantype: this.me.loantype,
+      })
+    }
   },
   methods: {
     ...mapMutations('access', ['setAccess', 'setStep']),

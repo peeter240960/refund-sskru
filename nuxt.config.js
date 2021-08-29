@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'tal',
+    title: 'Refund',
     htmlAttrs: {
       lang: 'en'
     },
@@ -48,7 +48,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://refundsskru.zhotspot.com/'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

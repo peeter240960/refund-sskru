@@ -125,6 +125,7 @@ import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudyDetails from '~/components/Shared/StudyDetails.vue'
 import HeadContent from '~/components/Shared/HeadContent.vue'
 export default {
+  middleware: 'confirmed',
   components: {
     StudentDetails,
     SelfCertificate,

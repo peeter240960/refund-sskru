@@ -4,6 +4,19 @@
     class="p-5 md:p-10 bg-white shadow-lg mx-auto text-sm md:text-lg"
     style="max-width: 1024px"
   >
+    <section>
+      <div class="p-5 bg-gray-100 grid text-center mb-5">
+        <span class="text-green-600 text-xl font-bold">
+          {{
+            me.status == 1
+              ? 'ดำเนินการเรียบร้อยแล้ว'
+              : me.status == 2
+              ? 'ยื่นแบบขอรับเงินคืน'
+              : 'พิมพ์บัตรลงทะเบียน'
+          }}
+        </span>
+      </div>
+    </section>
     <head-content />
 
     <student-details />
@@ -11,23 +24,6 @@
     <self-certificate />
 
     <study-details />
-
-    <section>
-      <b>การดำเนินการ</b>
-      <div class="p-5 bg-gray-100 grid">
-        <button class="text-green-600 text-2xl font-bold">status</button>
-
-        <nuxt-link
-          to="refund"
-          class="hover:underline hover:text-indigo-800 text-indigo-600 mx-auto"
-        >
-          ยื่นแบบขอรับเงินคืน
-        </nuxt-link>
-        <button class="hover:underline hover:text-indigo-800 text-indigo-600">
-          Download ใบลงทะเบียน <i class="fas fa-file-download"></i>
-        </button>
-      </div>
-    </section>
   </div>
 </template>
 
@@ -37,12 +33,17 @@ import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudyDetails from '~/components/Shared/StudyDetails.vue'
 import HeadContent from '~/components/Shared/HeadContent.vue'
 import Swal from 'sweetalert2'
+import { mapGetters } from 'vuex'
 export default {
+  middleware: 'confirmed',
   components: {
     StudentDetails,
     SelfCertificate,
     StudyDetails,
     HeadContent,
+  },
+  computed: {
+    ...mapGetters('authen', ['me']),
   },
   methods: {
     submit() {
