@@ -50,15 +50,33 @@ app.post('/login', async (req, res) => {
     const user = await User.findOne({ cid, sid })
     console.log(user);
     if (!user) {
-        res.status(401).json({ success: false, message: 'ข้อมูลของคุณไม่ถูกต้อง' })
+        res.status(401).json({
+            success: false,
+            message: `<p class="font-bold">ข้อมูลของคุณไม่ถูกต้อง หรือไม่ได้รับสิทธิส่วนลดค่าเล่าเรียนและค่าธรรมเนียมของภาคเรียนที่ 1/2564 เนื่องจาก</p>
+                        <ol class="text-left list-decimal px-5 pl-10">
+                            <li>ได้รับทุนการศึกษายกเว้นค่าเล่าเรียนจากหน่วยงานรัฐ เอกชน หรือมหาวิทยาลัย</li>
+                            <li>ไม่ได้ลงทะเบียนส่งข้อมูลให้มหาวิทยาลัยตรวจสอบสิทธิ์กับทางส่วนกลาง</li>
+                            <li>ไม่ใช่นักศึกษาสัญชาติไทย</li>
+                        </ol>`
+        })
         return
     }
+
     if (user.role === 'admin') {
         siginToken(user, res)
     } else {
         let data = await getUserFromApi(token, { cid, sid })
         if (data.success && data.result.students.length > 0) {
-            siginToken(user, res)
+            if (data.result.students[0].ciddup != 1 || (data.result.students[0].prefer == 1 && data.result.students[0].ciddup == 1)) {
+                siginToken(user, res)
+            } else {
+                res.status(401).json({
+                    success: false,
+                    message: `<p>นักศึกษามีชื่อเรียนหลายสถาบัน ให้นักศึกษาเข้ายืนยันรับสิทธิส่วนลดจากหลักสูตรหรือสถาบันใด เพียงที่เดียว ได้ที่</p>
+                    <a href="https://covidfund.cupt.net/" class="text-blue-500 hover:underline">https://covidfund.cupt.net/</a>`,
+                })
+                return
+            }
         } else {
             res.status(401).json({ success: false, message: 'ข้อมูลของคุณไม่ถูกต้อง' })
             return
@@ -121,7 +139,7 @@ app.post('/admin/student_create', [authen, admin], async (req, res) => {
     for (let i = 0; i < students.length; i++) {
         const student = students[i];
         try {
-            checkStudent = await User.findOne({ id: student.id })
+            checkStudent = await User.findOne({ cid: student.cid })
             console.log('-- find student success --');
         } catch (err) {
             console.log('=== find student failed ===' + err.message);

@@ -118,7 +118,7 @@ export default {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: err?.response?.data?.message,
+          html: err?.response?.data?.message,
         })
       }
       this.loading = false

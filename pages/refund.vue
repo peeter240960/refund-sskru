@@ -15,8 +15,9 @@
 
     <section class="mt-5">
       <p class="text-indent">
-        ด้วยข้าพเจ้า  คำนำหน้าชื่อ ชื่อ นามสกุล  รหัสประจําตัวนักศึกษา 
-        รหัสนักศึกษา นักศึกษาภาค  ภาค ระดับ ระดับ  สาขาวิชา สาขาวิชา คณะ คณะ
+        ด้วยข้าพเจ้า <<คำนำหน้าชื่อ>> <<ชื่อ>> <<นามสกุล>> เลขประจำตัวประชาชน
+        <<ประชาชน>> นักศึกษามหาวิทยาลัยราชภัฏศรีสะเกษ สาขาวิชา <<หลักสูตร>> คณะ
+        <<คณะ>> อยู่ <<ที่อยู่>>
       </p>
       <p class="text-indent">
         มีความประสงค์ขอรับเงินค่าเล่าเรียนประจำภาคเรียนที่  1/2564 คืน 
@@ -27,8 +28,10 @@
 
     <section class="mt-5">
       <p class="text-indent">
-        ทั้งนี้ ข้าพเจ้าขอรับเงินผ่านระบบ KTB Corporate Online
-        โดยเข้าบัญชีเงินฝากธนาคาร
+        ขอรับเงินผ่านระบบ KTB Corporate Online
+        โดยได้แนบสำเนาบัตรประจำตัวประชาชนมาเพื่อเป็นหลักฐานด้วยแล้ว *
+        ทั้งนี้ต้องเป็นบัญชีที่ผูกกับพร้อมเพย์เลขบัตรประจำตัวประชาชนเท่านั้น
+        เพื่อเข้าบัญชี
       </p>
     </section>
 
@@ -95,21 +98,12 @@
     </section>
 
     <section class="mt-5">
-      <p class="text-indent">
-        ทั้งนี้ ได้แนบเอกสาร/ หลักฐานประกอบการขอรับเงินคืนมาพร้อมนี้ ดังนี้
-      </p>
+      <p class="text-indent">ทั้งนี้ ได้แนบสำเนาบัตรประชาชนมาพร้อมนี้</p>
     </section>
 
     <section class="mt-5 border p-5">
       <div class="grid mb-3">
-        <span>สำเนาหน้าสมุดบัญชีธนาคาร</span>
-        <div class="flex items-center bg-gray-50 px-2">
-          <i class="fas fa-file-upload text-2xl"></i>
-          <input type="file" class="py-1 px-2 rounded w-full" />
-        </div>
-      </div>
-      <div class="grid">
-        <span>แบบแจ้งข้อมูลการรับโอนเงินผ่านระบบ KTB Corporate Online</span>
+        <span>สำเนาบัตรประจำตัวประชาชน</span>
         <div class="flex items-center bg-gray-50 px-2">
           <i class="fas fa-file-upload text-2xl"></i>
           <input type="file" class="py-1 px-2 rounded w-full" />
