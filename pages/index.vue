@@ -121,7 +121,7 @@ export default {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          html: err?.response?.data?.message,
+          html: `${err?.response?.data?.message} <br /> กรูณาลองใหม่อีกครั้ง`,
         })
       }
       this.loading = false

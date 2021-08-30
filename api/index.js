@@ -13,6 +13,8 @@ const jwt = require('jsonwebtoken');
 const admin = require('./middlewares/admin')
 const getMAC = require('getmac').default
 
+const moment = require('moment')
+
 app.use(cookieParser());
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
@@ -25,7 +27,7 @@ app.use(async (req, res, next) => {
         if (tokenFromApi.success) {
             adminToken = await AdminToken.create({ token: tokenFromApi.result.access_token })
             if (adminToken) {
-                req.token = adminToken.token
+                req.token = tokenFromApi.result.access_token
             } else {
                 res.status(401).json({ success: false, message: 'เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง' })
                 return
@@ -34,8 +36,31 @@ app.use(async (req, res, next) => {
             res.status(401).json({ success: false, message: 'เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง' })
             return
         }
+    } else {
+
+        console.log(moment().format());
+        console.log(moment(adminToken.expire).subtract(7, 'hours').format());
+
+        console.log(moment(adminToken.expire).subtract(7, 'hours').format() <= moment().format());
+        if (moment(adminToken.expire).subtract(7, 'hours').format() <= moment().format()) {
+            const tokenFromApi = await getTokenFromApi()
+            if (tokenFromApi.success) {
+                await adminToken.updateOne({ token: tokenFromApi.result.access_token, expire: moment().add(14, 'hours').format() })
+                if (adminToken) {
+                    req.token = tokenFromApi.result.access_token
+                } else {
+                    res.status(401).json({ success: false, message: 'เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง' })
+                    return
+                }
+            } else {
+                res.status(401).json({ success: false, message: 'เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง' })
+                return
+            }
+        } else {
+            console.log('old token');
+            req.token = adminToken.token
+        }
     }
-    req.token = adminToken.token
     next()
 })
 
@@ -49,7 +74,6 @@ app.post('/login', async (req, res) => {
 
     // check admin
     const user = await User.findOne({ cid, sid })
-    console.log(user);
     if (!user) {
         res.status(401).json({
             success: false,
@@ -66,7 +90,7 @@ app.post('/login', async (req, res) => {
     if (user.role === 'admin') {
         siginToken(user, res)
     } else {
-        let data = await getUserFromApi(token, { cid, sid })
+        const data = await getUserFromApi(token, { cid, sid })
         if (data.success && data.result.students.length > 0) {
             if (data.result.students[0].ciddup != 1 || (data.result.students[0].prefer == 1 && data.result.students[0].ciddup == 1)) {
                 if (!user.status || user.status < 1) {
@@ -82,7 +106,8 @@ app.post('/login', async (req, res) => {
                 return
             }
         } else {
-            res.status(401).json({ success: false, message: 'ข้อมูลของคุณไม่ถูกต้อง' })
+            await AdminToken.deleteMany()
+            res.status(401).json({ success: false, message: data?.message?.errors[0]?.message, errors: data?.message?.errors })
             return
         }
     }
@@ -223,6 +248,7 @@ async function getUserFromApi(token, { cid, sid }) {
         return resp.data
     } catch (err) {
         return {
+            message: err.response.data,
             success: false
         }
     }
