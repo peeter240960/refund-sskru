@@ -10,8 +10,8 @@ module.exports = (req, res, next) => {
     }
     try {
         const decodedToken = jwt.verify(access_token, secretToken);
-        const { userId, role } = decodedToken;
-        req.authen = { userId, role }
+        const { userId, role, sid } = decodedToken;
+        req.authen = { userId, role, sid }
         next();
     } catch (err) {
         console.log('verify token failed', err.message);

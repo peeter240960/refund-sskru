@@ -40,11 +40,14 @@
       <div class="p-5">
         <div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">ธนาคาร</div>
+            <div class="font-bold">
+              ธนาคาร <small class="text-red-500">*</small>
+            </div>
             <div>
               <select
                 class="py-1 px-2 bg-gray-50 rounded w-full"
                 v-model="form.bank"
+                :disabled="me.status > 1"
               >
                 <option value="0" :selected="me.bank == 0 || !me.bank">
                   เลือก
@@ -69,21 +72,27 @@
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">สาขา</div>
+            <div class="font-bold">
+              สาขา <small class="text-red-500">*</small>
+            </div>
             <div>
               <input
                 type="text"
                 v-model="form.branch"
+                :disabled="me.status > 1"
                 class="py-1 px-2 bg-gray-50 rounded w-full"
               />
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">ประเภท</div>
+            <div class="font-bold">
+              ประเภท <small class="text-red-500">*</small>
+            </div>
             <div>
               <select
                 class="py-1 px-2 bg-gray-50 rounded w-full"
                 v-model="form.bookbanktype"
+                :disabled="me.status > 1"
               >
                 <option value="0" :selected="me.bookbanktype == null">
                   เลือก
@@ -98,12 +107,15 @@
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">เลขที่บัญชีเงินฝากธนาคาร</div>
+            <div class="font-bold">
+              เลขที่บัญชีเงินฝากธนาคาร <small class="text-red-500">*</small>
+            </div>
             <div>
               <input
                 type="text"
                 class="py-1 px-2 bg-gray-50 rounded w-full"
                 v-model="form.bookbank"
+                :disabled="me.status > 1"
               />
             </div>
           </div>
@@ -131,6 +143,7 @@
         <input
           type="text"
           v-model="form.tel"
+          :disabled="me.status > 1"
           class="py-1 px-2 bg-gray-50 rounded sm:ml-1"
         />
       </div>
@@ -147,6 +160,7 @@
         <input
           type="text"
           v-model="form.email"
+          :disabled="me.status > 1"
           class="py-1 px-2 bg-gray-50 rounded sm:ml-1"
         />
       </div>
@@ -158,16 +172,24 @@
 
     <section class="mt-5 border p-5">
       <div class="grid mb-3">
-        <span>สำเนาบัตรประจำตัวประชาชน</span>
+        <b>สำเนาบัตรประจำตัวประชาชน <small class="text-red-500">*</small> </b>
         <div class="flex items-center bg-gray-50 px-2">
           <i class="fas fa-file-upload text-2xl"></i>
-          <input type="file" class="py-1 px-2 rounded w-full" />
+          <input
+            type="file"
+            class="py-1 px-2 rounded w-full"
+            ref="file"
+            @change="upload"
+          />
         </div>
       </div>
     </section>
 
-    <section class="mt-5">
-      <button class="px-4 py-2 bg-yellow-400 rounded-lg text-sm mr-3">
+    <section class="mt-5" v-if="me.status < 2">
+      <button
+        class="px-4 py-2 bg-yellow-400 rounded-lg text-sm mr-3"
+        @click="update"
+      >
         ยื่นคำร้อง
       </button>
     </section>
@@ -179,7 +201,8 @@ import StudentDetails from '~/components/Shared/StudentDetails.vue'
 import SelfCertificate from '~/components/Shared/SelfCertificate.vue'
 import StudyDetails from '~/components/Shared/StudyDetails.vue'
 import HeadContent from '~/components/Shared/HeadContent.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import Swal from 'sweetalert2'
 export default {
   middleware: 'confirmed',
   components: {
@@ -197,9 +220,78 @@ export default {
       tel: null,
       email: null,
     },
+    file: null,
   }),
   computed: {
     ...mapGetters('authen', ['me']),
+  },
+  mounted() {
+    this.form.bank = this.me.bank || 0
+    this.form.branch = this.me.branch
+    this.form.bookbanktype = this.me.bookbanktype || 0
+    this.form.bookbank = this.me.bookbank
+    this.form.tel = this.me.tel
+    this.form.email = this.me.email
+  },
+  methods: {
+    ...mapMutations('authen', ['setAuth']),
+    async upload(e) {
+      const file = e.target.files[0]
+      const formData = new FormData()
+      formData.append('file', file, file.name)
+      formData.append('sid', this.me.sid)
+      try {
+        const resp = await this.$axios.$post('/api/upload', formData, {})
+        this.file = resp.result
+      } catch (err) {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          html: `${err?.response?.data?.message}`,
+        })
+      }
+    },
+    async update() {
+      if (!this.file) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          html: `กรุณาอัพโหลดไฟล์`,
+        })
+        return false
+      } else if (
+        this.form.bank == 0 ||
+        !this.form.branch ||
+        this.form.bookbanktype == 0 ||
+        !this.form.bookbank
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          html: `กรุณาใส่ข้อมูลที่บังคับให้ครบ`,
+        })
+        return false
+      }
+      try {
+        await this.$axios.$post('/api/admin/student_create', {
+          students: [{ ...this.form, cid: this.me.cid, status: 2 }],
+        })
+        this.setAuth({ ...this.me, status: 2 })
+        Swal.fire({
+          icon: 'success',
+          title: 'Good job...',
+          html: `ดำเนินการสำเร็จ`,
+        })
+      } catch (err) {
+        console.log('create user failed', err.message)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err?.response?.data?.message,
+        })
+      }
+    },
   },
 }
 </script>

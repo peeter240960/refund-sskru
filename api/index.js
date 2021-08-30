@@ -12,12 +12,14 @@ const authen = require('./middlewares/authen')
 const jwt = require('jsonwebtoken');
 const admin = require('./middlewares/admin')
 const getMAC = require('getmac').default
-
+const path = require('path')
 const moment = require('moment')
+const uploadFile = require("./middlewares/upload");
 
 app.use(cookieParser());
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
+
 DbConnect();
 
 app.use(async (req, res, next) => {
@@ -224,9 +226,26 @@ app.post('/admin/student_create', authen, async (req, res) => {
     }
 })
 
+app.post('/upload', authen, async (req, res) => {
+    try {
+        await uploadFile(req, res);
+        if (req.file == undefined) {
+            return res.status(400).send({ message: "Please upload a file!" });
+        }
+        res.status(200).send({
+            success: true,
+            result: req.file.filename,
+        });
+    } catch (err) {
+        res.status(401).send({
+            message: err.message,
+        });
+    }
+})
+
 function siginToken(user, res) {
     const access_token = jwt.sign(
-        { userId: user._id, role: user.role },
+        { userId: user._id, role: user.role, sid: user.sid },
         secretToken,
         {
             expiresIn: "3h",
@@ -253,7 +272,6 @@ async function getUserFromApi(token, { cid, sid }) {
         }
     }
 }
-
 async function getTokenFromApi() {
     const options = {
         method: 'POST',
