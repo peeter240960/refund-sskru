@@ -52,6 +52,17 @@ export default {
   },
   methods: {
     ...mapMutations('authen', ['setAuth']),
+    getStatus() {
+      let status
+      if (this.getAccess.access == 1 && this.me.paidtype == 1) {
+        status = 2
+      } else if (this.getAccess.access == 2 && this.me.paidtype == 1) {
+        status = 1
+      } else {
+        status = 3
+      }
+      return status
+    },
     submit() {
       Swal.fire({
         html: `ข้าพเจ้ามีความประสงค์จะ<br/>ยื่นความประสงค์ยืนยันสิทธิ์ส่วน<br/>ลดค่าเล่าเรียน<br/><br/>หรือหากไม่มีความประสงค์<br/>กรุณากดปุ่ม "Cancel"`,
@@ -71,7 +82,7 @@ export default {
                   scholarshiptype: this.getAccess.scholarshiptype,
                   loantype: this.getAccess.loantype,
                   confirm: this.getAccess.access,
-                  status: 1,
+                  status: this.getStatus(),
                 },
               ],
             })
@@ -81,7 +92,6 @@ export default {
             console.log('create user failed', err.message)
             Swal.fire({
               icon: 'error',
-              title: 'Oops...',
               text: err?.response?.data?.message,
             })
           }

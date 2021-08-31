@@ -23,7 +23,6 @@ export const actions = {
 }
 export const mutations = {
     setAuth(state, payload) {
-        console.log('setAuth', payload);
         state.user = payload
     },
 }

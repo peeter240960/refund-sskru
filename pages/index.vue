@@ -6,8 +6,8 @@
       class="mx-auto p-5 bg-white rounded shadow-lg relative mt-10 pb-16"
     >
       <div class="flex justify-center items-center my-3">
-        <img src="~/assets/images/MHESI.png" alt="MHUSI" class="h-32 mr-2" />
-        <img src="~/assets/images/SSKRU.png" alt="SSKRU" class="h-32" />
+        <img src="~/static/images/MHESI.png" alt="MHUSI" class="h-32 mr-2" />
+        <img src="~/static/images/SSKRU.png" alt="SSKRU" class="h-32" />
       </div>
       <div class="py-10 text-center">
         <b class="text-xl">
@@ -72,11 +72,6 @@
         >
         ของท่านถือว่าเป็นการลงลายมือชื่อทางอิเล็กทรอนิกส์ ตามมาตรา ๙ ของ พ.ร.บ.
         ธุรกรรมทางอิเล็กทรอนิกส์ พ.ศ. ๒๕๔๔
-        <br />
-        <br />
-        <button class="text-blue-600 font-light hover:underline">
-          อ่านรายละเอียด
-        </button>
       </div>
     </div>
   </div>
@@ -120,8 +115,7 @@ export default {
       } catch (err) {
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
-          html: `${err?.response?.data?.message} <br /> กรูณาลองใหม่อีกครั้ง`,
+          html: `${err?.response?.data?.message}`,
         })
       }
       this.loading = false

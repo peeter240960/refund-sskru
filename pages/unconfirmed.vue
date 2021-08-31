@@ -185,12 +185,12 @@
           <font-awesome-icon
             :icon="['fa', 'times-circle']"
             :class="`text-5xl shadow-lg rounded-full text-${
-              getAccess.access == 0
+              getAccess.access == 2
                 ? `red-600 border-2 border-red-800`
                 : 'gray-300'
             }`"
             style="cursor: pointer"
-            @click="setAccess({ access: 0 })"
+            @click="setAccess({ access: 2 })"
           />
           <input
             type="radio"
@@ -234,11 +234,6 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   middleware: 'unconfirmed',
   components: { SelfCertificate, StudentDetails },
-  data: () => ({
-    from: {
-      access: 'access',
-    },
-  }),
   computed: {
     ...mapGetters('access', ['getAccess', 'getStep']),
     ...mapGetters('authen', ['me']),

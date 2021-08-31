@@ -17,8 +17,9 @@
       <p class="text-indent">
         ด้วยข้าพเจ้า {{ me.title }} {{ me.firstname }}
         {{ me.lastname }} เลขประจำตัวประชาชน
-        {{ me.cid }} นักศึกษามหาวิทยาลัยราชภัฏศรีสะเกษ สาขาวิชา
-        {{ me.program }} คณะ {{ me.faculty }} อยู่ {{ me.address }}
+        {{ me.cid }} นักศึกษามหาวิทยาลัยราชภัฏศรีสะเกษ ระดับ
+        {{ getLavel }} สาขาวิชา {{ me.program }} คณะ {{ me.faculty }} อยู่
+        {{ me.address }}
       </p>
       <p class="text-indent">
         มีความประสงค์ขอรับเงินค่าเล่าเรียนประจำภาคเรียนที่  1/2564 คืน 
@@ -47,7 +48,7 @@
               <select
                 class="py-1 px-2 bg-gray-50 rounded w-full"
                 v-model="form.bank"
-                :disabled="me.status > 1"
+                :disabled="me.status == 1"
               >
                 <option value="0" :selected="me.bank == 0 || !me.bank">
                   เลือก
@@ -79,7 +80,7 @@
               <input
                 type="text"
                 v-model="form.branch"
-                :disabled="me.status > 1"
+                :disabled="me.status == 1"
                 class="py-1 px-2 bg-gray-50 rounded w-full"
               />
             </div>
@@ -92,7 +93,7 @@
               <select
                 class="py-1 px-2 bg-gray-50 rounded w-full"
                 v-model="form.bookbanktype"
-                :disabled="me.status > 1"
+                :disabled="me.status == 1"
               >
                 <option value="0" :selected="me.bookbanktype == null">
                   เลือก
@@ -115,7 +116,7 @@
                 type="text"
                 class="py-1 px-2 bg-gray-50 rounded w-full"
                 v-model="form.bookbank"
-                :disabled="me.status > 1"
+                :disabled="me.status == 1"
               />
             </div>
           </div>
@@ -143,7 +144,7 @@
         <input
           type="text"
           v-model="form.tel"
-          :disabled="me.status > 1"
+          :disabled="me.status == 1"
           class="py-1 px-2 bg-gray-50 rounded sm:ml-1"
         />
       </div>
@@ -160,7 +161,7 @@
         <input
           type="text"
           v-model="form.email"
-          :disabled="me.status > 1"
+          :disabled="me.status == 1"
           class="py-1 px-2 bg-gray-50 rounded sm:ml-1"
         />
       </div>
@@ -185,7 +186,7 @@
       </div>
     </section>
 
-    <section class="mt-5" v-if="me.status < 2">
+    <section class="mt-5" v-if="me.status != 1">
       <button
         class="px-4 py-2 bg-yellow-400 rounded-lg text-sm mr-3"
         @click="update"
@@ -224,6 +225,20 @@ export default {
   }),
   computed: {
     ...mapGetters('authen', ['me']),
+    getLavel() {
+      switch (this.me.level) {
+        case '4':
+          return 'ปริญญาตรี'
+        case '5':
+          return 'ประกาศนียบัตรบัณฑิต'
+        case '6':
+          return 'ปริญญาโท'
+        case '8':
+          return 'ปริญญาเอก'
+        default:
+          return null
+      }
+    },
   },
   mounted() {
     this.form.bank = this.me.bank || 0
@@ -247,7 +262,6 @@ export default {
         console.log(err)
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
           html: `${err?.response?.data?.message}`,
         })
       }
@@ -256,7 +270,6 @@ export default {
       if (!this.file) {
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
           html: `กรุณาอัพโหลดไฟล์`,
         })
         return false
@@ -268,26 +281,24 @@ export default {
       ) {
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
           html: `กรุณาใส่ข้อมูลที่บังคับให้ครบ`,
         })
         return false
       }
       try {
         await this.$axios.$post('/api/admin/student_create', {
-          students: [{ ...this.form, cid: this.me.cid, status: 2 }],
+          students: [{ ...this.form, cid: this.me.cid, status: 1 }],
         })
-        this.setAuth({ ...this.me, status: 2 })
+        this.setAuth({ ...this.me, status: 1 })
+        this.$router.push('/confirmed')
         Swal.fire({
           icon: 'success',
-          title: 'Good job...',
           html: `ดำเนินการสำเร็จ`,
         })
       } catch (err) {
         console.log('create user failed', err.message)
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
           text: err?.response?.data?.message,
         })
       }

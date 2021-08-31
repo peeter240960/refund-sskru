@@ -80,15 +80,15 @@
               ยืนยันสิทธิ์
             </span>
           </nuxt-link>
-          <nuxt-link
-            v-if="me && me.status && me.status >= 1"
+          <button
+            v-if="me && me.status && me.status == 3"
             class="py-1 mr-5"
-            to="/"
+            @click="download"
           >
             <span> พิมพ์ใบลงทะเบียน </span>
-          </nuxt-link>
+          </button>
           <nuxt-link
-            v-if="me && me.status && me.status >= 1"
+            v-if="me && me.status && me.status == 2"
             class="py-1 mr-5"
             to="refund"
           >
@@ -137,7 +137,8 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import Swal from 'sweetalert2'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'defaultLayout',
@@ -150,12 +151,21 @@ export default {
   },
   methods: {
     ...mapActions('authen', ['logout']),
+    ...mapMutations('authen', ['setAuth']),
     async logoutSubmit() {
       try {
         await this.logout()
       } catch (err) {
         console.log(err)
       }
+    },
+    async download() {
+      let fileLink = document.createElement('a')
+      fileLink.href = 'http://localhost:3000/api/download'
+      fileLink.setAttribute('download', 'ใบลงทะเบียน.pdf')
+      document.body.appendChild(fileLink)
+      fileLink.click()
+      this.setAuth({ ...this.me, status: 1 })
     },
   },
 }

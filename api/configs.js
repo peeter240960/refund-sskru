@@ -3,5 +3,6 @@ module.exports = {
     university: 'มหาวิทยาลัยราชภัฏศรีสะเกษ',
     password: 'iehePoh2qu',
     mongoUrl: 'mongodb+srv://240960:240960@singapo-server.bx3sv.mongodb.net/tal?retryWrites=true&w=majority',
+    // mongoUrl: 'mongodb://myUserAdmin:240960@127.0.0.1:27017/refund?authSource=admin',
     secretToken: 'eaNcU304nQncMzaoinYrG4Ncz5ePQA7JU5Gni3S8uf7YBH16BF8tOlSPN0Oz0u0j83FXoP2FI1T3FzpqSLFtGzRgtifTfidfr8XQyl5gfDVksq4fV4UVr7lvByOby0BFdqTJ1FcopBA3vJFC4fjgmH'
 }

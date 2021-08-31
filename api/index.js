@@ -80,10 +80,10 @@ app.post('/login', async (req, res) => {
         res.status(401).json({
             success: false,
             message: `<p class="font-bold">ข้อมูลของคุณไม่ถูกต้อง หรือไม่ได้รับสิทธิส่วนลดค่าเล่าเรียนและค่าธรรมเนียมของภาคเรียนที่ 1/2564 เนื่องจาก</p>
-                        <ol class="text-left list-decimal px-5 pl-10">
-                            <li>ได้รับทุนการศึกษายกเว้นค่าเล่าเรียนจากหน่วยงานรัฐ เอกชน หรือมหาวิทยาลัย</li>
-                            <li>ไม่ได้ลงทะเบียนส่งข้อมูลให้มหาวิทยาลัยตรวจสอบสิทธิ์กับทางส่วนกลาง</li>
-                            <li>ไม่ใช่นักศึกษาสัญชาติไทย</li>
+                        <ol class="text-left px-5 pl-5">
+                            <li>1. ได้รับทุนการศึกษายกเว้นค่าเล่าเรียนจากหน่วยงานรัฐ เอกชน หรือมหาวิทยาลัย</li>
+                            <li>2. ไม่ได้ลงทะเบียนส่งข้อมูลให้มหาวิทยาลัยตรวจสอบสิทธิ์กับทางส่วนกลาง</li>
+                            <li>3. ไม่ใช่นักศึกษาสัญชาติไทย</li>
                         </ol>`
         })
         return
@@ -225,7 +225,6 @@ app.post('/admin/student_create', authen, async (req, res) => {
 
     }
 })
-
 app.post('/upload', authen, async (req, res) => {
     try {
         await uploadFile(req, res);
@@ -238,9 +237,35 @@ app.post('/upload', authen, async (req, res) => {
         });
     } catch (err) {
         res.status(401).send({
+            success: false,
             message: err.message,
         });
     }
+})
+app.get('/download', authen, async (req, res) => {
+    let path = __dirname + '/public/pdf'
+    const { userId } = req.authen
+    const user = await User.findOne({ _id: userId })
+    if (!user) {
+        return res.status(401).send({
+            success: false,
+            message: 'Unauthorized',
+        });
+    }
+    if (user.confirm == 1) {
+        path += '/refund'
+    } else if (user.confirm == 2) {
+        path += '/notrefund'
+    } else {
+        return res.status(401).send({
+            success: false,
+            message: 'Somting went wrong',
+        });
+    }
+    res.download(`${path}/11011.pdf`)
+    user.status = 1
+    await user.save()
+    console.log('--update status success--');
 })
 
 function siginToken(user, res) {

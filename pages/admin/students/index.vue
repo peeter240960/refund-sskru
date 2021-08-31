@@ -26,7 +26,7 @@
     <section>
       <div>
         <button
-          :class="`${loading ? 'opacity-40' : 'opacity-100'}
+          :class="`${loading || loadingPage ? 'opacity-40' : 'opacity-100'}
           px-3
           py-2
           bg-yellow-500
@@ -36,13 +36,15 @@
           shadow-lg
           mb-3
           hover:bg-yellow-600`"
-          :disabled="loading"
+          :disabled="loading || loadingPage"
           @click="dialog = true"
         >
           import
         </button>
         <button
-          :class="`${loadingExport ? 'opacity-40' : 'opacity-100'}
+          :class="`${
+            loadingExport || loadingPage ? 'opacity-40' : 'opacity-100'
+          }
           px-3
           py-2
           bg-green-500
@@ -52,7 +54,7 @@
           shadow-lg
           mb-3
           hover:bg-green-600`"
-          :disabled="loadingExport"
+          :disabled="loadingExport || loadingPage"
           @click="exportFile"
         >
           export
@@ -795,19 +797,19 @@
         </div>
         <div class="mt-5 text-sm">
           <button
-            :disabled="loading"
+            :disabled="loadingPage"
             :class="`px-3 py-2 rounded-lg bg-yellow-500 text-white ${
-              loading ? 'opacity-25' : 'opacity-100'
+              loadingPage ? 'opacity-25' : 'opacity-100'
             }`"
             @click="importSubmit"
           >
             Import
           </button>
           <button
-            :disabled="loading"
+            :disabled="loadingPage"
             @click="dialog = false"
             :class="`px-3 py-2 rounded-lg bg-red-500 text-white ${
-              loading ? 'opacity-25' : 'opacity-100'
+              loadingPage ? 'opacity-25' : 'opacity-100'
             }`"
           >
             Close
@@ -839,6 +841,7 @@ export default {
     form: {},
     searchText: '',
     timer: null,
+    loadingPage: false,
   }),
   async fetch() {
     try {
@@ -880,6 +883,7 @@ export default {
       } else {
         Swal.fire('Good job!', 'Update student data!', 'success')
         this.loading = false
+        this.loadingPage = false
         console.log('Destroyed interval -->', this.intervalServerProcess)
         clearInterval(this.intervalServerProcess)
         this.intervalServerProcess = null
@@ -916,7 +920,6 @@ export default {
         console.log('create user failed')
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
           text: err?.response?.data?.message,
         })
       }
@@ -935,7 +938,6 @@ export default {
       } catch (err) {
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
           text: err?.response?.data?.message,
         })
       }
@@ -956,6 +958,7 @@ export default {
       })
     },
     importChange(event) {
+      this.loadingPage = true
       this.file = event.target.files ? event.target.files[0] : null
       this.toJson(this.file).then((data) => {
         data.forEach((element, index) => {
@@ -1001,9 +1004,11 @@ export default {
             email: element.email,
           })
         })
+        this.loadingPage = false
       })
     },
     async importSubmit() {
+      this.loadingPage = true
       if (this.userData.length == 0) return false
       try {
         await this.$axios.$post('/api/admin/student_create', {
@@ -1016,7 +1021,6 @@ export default {
         console.log('create user failed')
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
           text: err?.response?.data?.message,
         })
       }
