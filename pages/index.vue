@@ -79,38 +79,38 @@
 
 <script>
 import Swal from 'sweetalert2'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
+  middleware: 'guest',
   layout: 'authLayout',
   data: () => ({
     form: { sid: null, sid: null },
     loading: false,
   }),
-  async mounted() {
-    try {
-      await this.getMe()
-      if (this.me && this.me.role && this.me.role === 'admin') {
-        this.$router.push('/admin/students')
-      } else {
-        this.$router.push('/unconfirmed')
-      }
-    } catch (err) {
-      console.log('no login')
-    }
-  },
   computed: {
     ...mapGetters('authen', ['me']),
   },
   methods: {
     ...mapActions('authen', ['getMe']),
+    ...mapMutations('authen', ['setAuth']),
     async submit() {
       this.loading = true
       try {
         const user = await this.$axios.$post('api/login', this.form)
+        this.setAuth(user.result)
         if (user.result.role && user.result.role === 'admin') {
           this.$router.push('/admin/students')
         } else {
-          this.$router.push('/unconfirmed')
+          if (
+            user.result &&
+            (user.result.confirm == 0 ||
+              user.result.confirm == '0' ||
+              !user.result.confirm)
+          ) {
+            this.$router.push('/unconfirmed')
+          } else {
+            this.$router.push('/confirmed')
+          }
         }
       } catch (err) {
         Swal.fire({

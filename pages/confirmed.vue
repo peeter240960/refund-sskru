@@ -5,8 +5,18 @@
     style="max-width: 1024px"
   >
     <section>
-      <div class="p-5 bg-gray-100 grid text-center mb-5">
-        <span class="text-green-600 text-xl font-bold">
+      <div
+        :class="`p-5 ${
+          me.status == 1
+            ? 'bg-green-50 border-green-600 border border-dotted	'
+            : 'bg-red-50 border-red-600 border border-dotted	'
+        } grid text-center mb-5`"
+      >
+        <span
+          :class="`${
+            me.status == 1 ? 'text-green-600' : 'text-red-600'
+          } text-xl font-bold`"
+        >
           {{
             me.status == 1
               ? 'ดำเนินการเรียบร้อยแล้ว'

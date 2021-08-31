@@ -8,7 +8,7 @@
           {{
             getAccess.right == 1
               ? `มีสิทธิเบิกจากหน่วยงานของรัฐ`
-              : `-`
+              : `ไม่มีสิทธิเบิกจากหน่วยงานของรัฐ`
           }}
         </div>
       </div>
@@ -20,7 +20,7 @@
           {{
             getAccess.scholarshiptype == 1
               ? ``
-              : `-`
+              : `ไม่ได้รับทุนการศึกษายกเว้นค่าธรรมเนียมการศึกษา`
           }}
         </div>
       </div>
@@ -39,16 +39,14 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
         <div class="font-bold">หมายเลขอ้างอิงการตรวจสอบ clearing house</div>
-        <div>{{ me.timestamp }}</div>
+        <div>{{ me.id }}</div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
         <div class="font-bold">
           การรับรองสิทธิด้วยการเข้าสู่ระบบอิเล็กทรอนิกส์
         </div>
         <div>
-          <span>เข้าสู่ระบบด้วย</span> {{ me.macaddress }}
-          <br />
-          {{ getAccess.confirmlog }}
+          <span>{{ me._id }} {{ me.timestamp }}</span>
         </div>
       </div>
     </div>

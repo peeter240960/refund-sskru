@@ -10,14 +10,15 @@ export const actions = {
     async getMe({ commit }) {
         const resp = await this.$axios.$get('/api/me')
         if (resp.success) {
-            await commit('setAuth', resp.result)
+            commit('setAuth', resp.result)
         }
     },
     async logout({ commit }) {
         const resp = await this.$axios.$delete('/api/logout')
         if (resp.success) {
             commit('setAuth', null)
-            $nuxt.$router.push('/')
+            window.location.reload()
+            // $nuxt.$router.push('/')
         }
     }
 }

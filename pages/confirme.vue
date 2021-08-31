@@ -54,9 +54,13 @@ export default {
     ...mapMutations('authen', ['setAuth']),
     getStatus() {
       let status
-      if (this.getAccess.access == 1 && this.me.paidtype == 1) {
+      if (this.getAccess.access == 1 && this.me && this.me.paidtype == 1) {
         status = 2
-      } else if (this.getAccess.access == 2 && this.me.paidtype == 1) {
+      } else if (
+        this.getAccess.access == 2 &&
+        this.me &&
+        this.me.paidtype == 1
+      ) {
         status = 1
       } else {
         status = 3
@@ -86,8 +90,8 @@ export default {
                 },
               ],
             })
-            this.setAuth({ ...this.me, status: 1 })
-            this.$router.push('confirmed')
+            this.setAuth({ ...this.me, status: this.getStatus() })
+            this.$router.push('refund')
           } catch (err) {
             console.log('create user failed', err.message)
             Swal.fire({

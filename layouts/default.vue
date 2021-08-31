@@ -81,7 +81,13 @@
             </span>
           </nuxt-link>
           <button
-            v-if="me && me.status && me.status == 3"
+            v-if="
+              me &&
+              me.status &&
+              (me.status == 3 || me.status == 1) &&
+              me.paidtype == 0 &&
+              me.confirm == 2
+            "
             class="py-1 mr-5"
             @click="download"
           >
@@ -93,7 +99,7 @@
             to="refund"
           >
             <span :class="$route.path === '/refund' && 'font-bold'">
-              ขอเงินคืน
+              ยื่นแบบขอรับเงินคืน
             </span>
           </nuxt-link>
           <button class="pb-2 pt-5 sm:hidden">

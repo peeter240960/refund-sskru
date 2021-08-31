@@ -46,14 +46,14 @@
             {{
               getAccess.access == 1 && me.paidtype == 1
                 ? 'ได้รับคืนค่าเทอม'
-                : 'ค้างชำระค่าเทอม'
+                : 'ค่าเทอมที่ต้องชำระ'
             }}
           </div>
           <div>
             {{
               getAccess.access == 1
                 ? me.refund
-                : me.paidtype == 0
+                : me.paidtype == 0 || me.paidtype == '0' || !me.paidtype
                 ? parseInt(me.regisfee) + parseInt(me.entfee)
                 : 0
             }}
@@ -72,7 +72,12 @@ export default {
     ...mapGetters('authen', ['me']),
   },
   mounted() {
-    if (this.me.confirm != 0) {
+    if (
+      this.me.confirm != 0 ||
+      this.me.confirm != '0' ||
+      this.me.confirm != null ||
+      this.me.confirm != undefined
+    ) {
       this.setAccess({
         access: this.me.confirm,
       })
