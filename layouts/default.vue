@@ -82,11 +82,11 @@
           </nuxt-link>
           <button
             v-if="
-              me &&
-              me.status &&
-              (me.status == 3 || me.status == 1) &&
-              me.paidtype == 0 &&
-              me.confirm == 2
+              (me &&
+                me.status &&
+                (me.status == 3 || me.status == 1) &&
+                me.confirm == 2) ||
+              me.paidtype == 0
             "
             class="py-1 mr-5"
             @click="download"

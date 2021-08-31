@@ -98,6 +98,7 @@ export default {
       try {
         const user = await this.$axios.$post('api/login', this.form)
         this.setAuth(user.result)
+        localStorage.setItem('login', new Date().getTime())
         if (user.result.role && user.result.role === 'admin') {
           this.$router.push('/admin/students')
         } else {

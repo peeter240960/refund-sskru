@@ -91,7 +91,15 @@ export default {
               ],
             })
             this.setAuth({ ...this.me, status: this.getStatus() })
-            this.$router.push('refund')
+            if (
+              this.getStatus() == 1 ||
+              ((this.me.paidtype == 0 || !this.me.paidtype) &&
+                this.getAccess.access == 2)
+            ) {
+              this.$router.push('confirmed')
+            } else {
+              this.$router.push('refund')
+            }
           } catch (err) {
             console.log('create user failed', err.message)
             Swal.fire({

@@ -16,9 +16,10 @@ export const actions = {
     async logout({ commit }) {
         const resp = await this.$axios.$delete('/api/logout')
         if (resp.success) {
-            commit('setAuth', null)
-            window.location.reload()
-            // $nuxt.$router.push('/')
+            // window.location.reload()
+            localStorage.removeItem('login')
+            $nuxt.$router.push('/')
+            commit('setAuth', {})
         }
     }
 }

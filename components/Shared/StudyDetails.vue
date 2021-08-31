@@ -39,7 +39,7 @@
         <hr class="mb-2" />
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">ชำระค่าเทอมแล้ว</div>
-          <div>{{ me.paid }}</div>
+          <div>{{ me.paid ? me.paid : 0 }}</div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
           <div class="font-bold">
@@ -72,12 +72,7 @@ export default {
     ...mapGetters('authen', ['me']),
   },
   mounted() {
-    if (
-      this.me.confirm != 0 ||
-      this.me.confirm != '0' ||
-      this.me.confirm != null ||
-      this.me.confirm != undefined
-    ) {
+    if (this.me.confirm != 0) {
       this.setAccess({
         access: this.me.confirm,
       })
