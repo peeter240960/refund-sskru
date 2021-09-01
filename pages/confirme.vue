@@ -91,14 +91,11 @@ export default {
               ],
             })
             this.setAuth({ ...this.me, status: this.getStatus() })
-            if (
-              this.getStatus() == 1 ||
-              ((this.me.paidtype == 0 || !this.me.paidtype) &&
-                this.getAccess.access == 2)
-            ) {
-              this.$router.push('confirmed')
-            } else {
+
+            if (this.me.paidtype == 1 && this.getAccess.access == 1) {
               this.$router.push('refund')
+            } else {
+              this.$router.push('confirmed')
             }
           } catch (err) {
             console.log('create user failed', err.message)

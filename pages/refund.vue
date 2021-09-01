@@ -205,7 +205,7 @@ import HeadContent from '~/components/Shared/HeadContent.vue'
 import { mapGetters, mapMutations } from 'vuex'
 import Swal from 'sweetalert2'
 export default {
-  middleware: 'confirmed',
+  // middleware: 'refund',
   components: {
     StudentDetails,
     SelfCertificate,

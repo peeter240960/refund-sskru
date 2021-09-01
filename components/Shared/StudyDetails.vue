@@ -50,13 +50,7 @@
             }}
           </div>
           <div>
-            {{
-              getAccess.access == 1
-                ? me.refund
-                : me.paidtype == 0 || me.paidtype == '0' || !me.paidtype
-                ? parseInt(me.regisfee) + parseInt(me.entfee)
-                : 0
-            }}
+            {{ total }}
           </div>
         </div>
       </div>
@@ -70,6 +64,20 @@ export default {
   computed: {
     ...mapGetters('access', ['getAccess']),
     ...mapGetters('authen', ['me']),
+    total() {
+      let total
+      if (this.getAccess.access == 1 && this.me.paidtype == 0) {
+        return this.me.tuitionbalance
+      } else if (this.getAccess.access == 2 && this.me.paidtype == 0) {
+        return this.me.regisfee
+      } else if (this.getAccess.access == 1 && this.me.paidtype == 1) {
+        return this.me.refund
+      } else if (this.getAccess.access == 2 && this.me.paidtype == 0) {
+        return parseInt(me.regisfee) + parseInt(me.entfee)
+      } else {
+        return 0
+      }
+    },
   },
   mounted() {
     if (this.me.confirm != 0) {

@@ -86,7 +86,7 @@
                 me.status &&
                 (me.status == 3 || me.status == 1) &&
                 me.confirm == 2) ||
-              me.paidtype == 0
+              (me.paidtype == 0 && me.status && me.status != 0)
             "
             class="py-1 mr-5"
             @click="download"
@@ -145,6 +145,7 @@
 <script>
 import Swal from 'sweetalert2'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+import download from 'downloadjs'
 
 export default {
   name: 'defaultLayout',
@@ -166,12 +167,26 @@ export default {
       }
     },
     async download() {
-      let fileLink = document.createElement('a')
-      fileLink.href = 'http://localhost:3000/api/download'
-      fileLink.setAttribute('download', 'ใบลงทะเบียน.pdf')
-      document.body.appendChild(fileLink)
-      fileLink.click()
-      this.setAuth({ ...this.me, status: 1 })
+      try {
+        // let fileLink = document.createElement('a')
+        // fileLink.href = 'http://localhost:3000/api/download'
+        // fileLink.setAttribute('download', 'ใบลงทะเบียน.pdf')
+        // document.body.appendChild(fileLink)
+        // fileLink.click()
+        const resp = await this.$axios.$get(`/api/download`, {
+          headers: this.headers,
+          responseType: 'blob',
+        })
+        // const content = resp.headers['content-type']
+        download(resp, 'ใบลงทะเบียน.pdf')
+        this.setAuth({ ...this.me, status: 1 })
+      } catch (err) {
+        console.log(err?.message)
+        Swal.fire({
+          icon: 'error',
+          html: `นักศึกษาสามารถ download บัตรลงทะเบียนเพื่อชำระภายใน 3 วันนับจากที่ระบบตรวจสอบความถูกต้องเรียบร้อยค่ะ ถ้าเป็นนักศึกษาที่ยื่นกู้ กยศ. สำนักส่งเสริมและงานทะเบียนจะนำส่งบัตรลงทะเบียนให้ทางกองทุนมหาวิทยาลัย`,
+        })
+      }
     },
   },
 }

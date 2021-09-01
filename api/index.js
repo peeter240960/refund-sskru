@@ -12,7 +12,7 @@ const authen = require('./middlewares/authen')
 const jwt = require('jsonwebtoken');
 const admin = require('./middlewares/admin')
 const getMAC = require('getmac').default
-const path = require('path')
+const fs = require('fs')
 const moment = require('moment')
 const uploadFile = require("./middlewares/upload");
 
@@ -262,7 +262,23 @@ app.get('/download', authen, async (req, res) => {
             message: 'Somting went wrong',
         });
     }
-    res.download(`${path}/11011.pdf`)
+    let isHasFile
+    try {
+        isHasFile = fs.lstatSync(`${path}/${user.sid}.pdf`).isFile()
+    } catch (err) {
+        console.log(err.message);
+        return res.status(401).send({
+            success: false,
+            message: `นักศึกษาสามารถ download บัตรลงทะเบียนเพื่อชำระภายใน 3 วันนับจากที่ระบบตรวจสอบความถูกต้องเรียบร้อยค่ะ ถ้าเป็นนักศึกษาที่ยื่นกู้ กยศ. สำนักส่งเสริมและงานทะเบียนจะนำส่งบัตรลงทะเบียนให้ทางกองทุนมหาวิทยาลัย`,
+        });
+    }
+    if (!isHasFile) {
+        return res.status(401).send({
+            success: false,
+            message: `นักศึกษาสามารถ download บัตรลงทะเบียนเพื่อชำระภายใน 3 วันนับจากที่ระบบตรวจสอบความถูกต้องเรียบร้อยค่ะ ถ้าเป็นนักศึกษาที่ยื่นกู้ กยศ. สำนักส่งเสริมและงานทะเบียนจะนำส่งบัตรลงทะเบียนให้ทางกองทุนมหาวิทยาลัย`,
+        });
+    }
+    res.download(`${path}/${user.sid}.pdf`)
     user.status = 1
     await user.save()
     console.log('--update status success--');
