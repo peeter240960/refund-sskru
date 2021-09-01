@@ -252,16 +252,6 @@ app.get('/download', authen, async (req, res) => {
             message: 'Unauthorized',
         });
     }
-    if (user.confirm == 1) {
-        path += '/refund'
-    } else if (user.confirm == 2) {
-        path += '/notrefund'
-    } else {
-        return res.status(401).send({
-            success: false,
-            message: 'Somting went wrong',
-        });
-    }
     let isHasFile
     try {
         isHasFile = fs.lstatSync(`${path}/${user.sid}.pdf`).isFile()

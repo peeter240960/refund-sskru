@@ -6,7 +6,7 @@
         <div class="font-bold">มีสิทธิเบิกจากหน่วยงานของรัฐ</div>
         <div>
           {{
-            getAccess.right == 1
+            access.right == 1
               ? `มีสิทธิเบิกจากหน่วยงานของรัฐ`
               : `ไม่มีสิทธิเบิกจากหน่วยงานของรัฐ`
           }}
@@ -18,7 +18,7 @@
         </div>
         <div>
           {{
-            getAccess.scholarshiptype == 1
+            access.scholarshiptype == 1
               ? ``
               : `ไม่ได้รับทุนการศึกษายกเว้นค่าธรรมเนียมการศึกษา`
           }}
@@ -31,7 +31,7 @@
         </div>
         <div>
           {{
-            getAccess.loantype == 1
+            access.loantype == 1
               ? `กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)`
               : `ไม่ได้กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)`
           }}
@@ -59,6 +59,17 @@ export default {
   computed: {
     ...mapGetters('access', ['getAccess']),
     ...mapGetters('authen', ['me']),
+    access() {
+      return {
+        right: this.me.confirm != 0 ? this.me.right : this.getAccess.right,
+        scholarshiptype:
+          this.me.confirm != 0
+            ? this.me.scholarshiptype
+            : this.getAccess.scholarshiptype,
+        loantype:
+          this.me.confirm != 0 ? this.me.loantype : this.getAccess.loantype,
+      }
+    },
   },
 }
 </script>

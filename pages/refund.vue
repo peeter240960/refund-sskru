@@ -33,11 +33,10 @@
         ขอรับเงินผ่านระบบ KTB Corporate Online
         โดยได้แนบสำเนาบัตรประจำตัวประชาชนมาเพื่อเป็นหลักฐานด้วยแล้ว *
         ทั้งนี้ต้องเป็นบัญชีที่ผูกกับพร้อมเพย์เลขบัตรประจำตัวประชาชนเท่านั้น
-        เพื่อเข้าบัญชี
       </p>
     </section>
 
-    <section class="mx-8 md:mx-20">
+    <!-- <section class="mx-8 md:mx-20">
       <div class="p-5">
         <div>
           <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
@@ -122,10 +121,10 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="">
-      <p>
+      <p class="text-indent">
         และเมื่อมหาวิทยาลัยราชภัฏศรีสะเกษ โอนเงินผ่านระบบ KTB Corporate Online
         แล้ว <br />
         ให้ส่งข้อมูลการโอนเงินผ่านช่องทาง
@@ -271,17 +270,6 @@ export default {
         Swal.fire({
           icon: 'error',
           html: `กรุณาอัพโหลดไฟล์`,
-        })
-        return false
-      } else if (
-        this.form.bank == 0 ||
-        !this.form.branch ||
-        this.form.bookbanktype == 0 ||
-        !this.form.bookbank
-      ) {
-        Swal.fire({
-          icon: 'error',
-          html: `กรุณาใส่ข้อมูลที่บังคับให้ครบ`,
         })
         return false
       }
