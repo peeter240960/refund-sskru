@@ -62,17 +62,22 @@
 import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapGetters('access', ['getAccess','getStep']),
+    ...mapGetters('access', ['getAccess', 'getStep']),
     ...mapGetters('authen', ['me']),
     access() {
       return {
-        right: this.getStep.step > 1 ? this.me.right : this.getAccess.right,
+        right:
+          this.getStep.step > 1 || this.me.status != 0
+            ? this.me.right
+            : this.getAccess.right,
         scholarshiptype:
-          this.getStep.step > 1
+          this.getStep.step > 1 || this.me.status != 0
             ? this.me.scholarshiptype
             : this.getAccess.scholarshiptype,
         loantype:
-          this.getStep.step > 1 ? this.me.loantype : this.getAccess.loantype,
+          this.getStep.step > 1 || this.me.status != 0
+            ? this.me.loantype
+            : this.getAccess.loantype,
       }
     },
   },
