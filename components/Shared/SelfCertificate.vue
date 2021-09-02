@@ -31,7 +31,12 @@
         </div>
         <div>
           {{
-            access.loantype == 1
+            access.loantype == 1 ||
+            access.loantype == '1' ||
+            access.loantype == 2 ||
+            access.loantype == '2' ||
+            access.loantype == 3 ||
+            access.loantype == '3'
               ? `กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)`
               : `ไม่ได้กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)`
           }}
@@ -57,17 +62,17 @@
 import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapGetters('access', ['getAccess']),
+    ...mapGetters('access', ['getAccess','getStep']),
     ...mapGetters('authen', ['me']),
     access() {
       return {
-        right: this.me.confirm != 0 ? this.me.right : this.getAccess.right,
+        right: this.getStep.step > 1 ? this.me.right : this.getAccess.right,
         scholarshiptype:
-          this.me.confirm != 0
+          this.getStep.step > 1
             ? this.me.scholarshiptype
             : this.getAccess.scholarshiptype,
         loantype:
-          this.me.confirm != 0 ? this.me.loantype : this.getAccess.loantype,
+          this.getStep.step > 1 ? this.me.loantype : this.getAccess.loantype,
       }
     },
   },

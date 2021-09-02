@@ -90,7 +90,15 @@ export default {
                 },
               ],
             })
-            this.setAuth({ ...this.me, status: this.getStatus() })
+            this.setAuth({
+              ...this.me,
+              cid: this.me.cid,
+              right: this.getAccess.right,
+              scholarshiptype: this.getAccess.scholarshiptype,
+              loantype: this.getAccess.loantype,
+              confirm: this.getAccess.access,
+              status: this.getStatus(),
+            })
 
             if (this.me.paidtype == 1 && this.getAccess.access == 1) {
               this.$router.push('refund')
