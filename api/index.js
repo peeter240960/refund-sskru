@@ -98,6 +98,18 @@ app.post('/login', async (req, res) => {
                 if (!user.status || user.status < 1) {
                     await user.updateOne({ macaddress: getMAC(), timestamp: new Date().getTime() })
                 }
+                if (user.confirm == 3 || user.confirm == '3') {
+                    res.status(401).json({
+                        success: false,
+                        message: `<p class="font-bold">ข้อมูลของคุณไม่ถูกต้อง หรือไม่ได้รับสิทธิส่วนลดค่าเล่าเรียนและค่าธรรมเนียมของภาคเรียนที่ 1/2564 เนื่องจาก</p>
+                                    <ol class="text-left px-5 pl-5">
+                                        <li>1. ได้รับทุนการศึกษายกเว้นค่าเล่าเรียนจากหน่วยงานรัฐ เอกชน หรือมหาวิทยาลัย</li>
+                                        <li>2. ไม่ได้ลงทะเบียนส่งข้อมูลให้มหาวิทยาลัยตรวจสอบสิทธิ์กับทางส่วนกลาง</li>
+                                        <li>3. ไม่ใช่นักศึกษาสัญชาติไทย</li>
+                                    </ol>`
+                    })
+                    return
+                }
                 siginToken(user, res)
             } else {
                 res.status(401).json({

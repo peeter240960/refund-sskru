@@ -24,7 +24,7 @@
       <p class="text-indent">
         มีความประสงค์ขอรับเงินค่าเล่าเรียนประจำภาคเรียนที่  1/2564 คืน 
         ตามโครงการมาตรการการลดค่าใช้จ่ายด้านการศึกษาของนิสิตนักศึกษาในสถาบันอุดมศึกษาภาครัฐและเอกชน
-        เป็นจำนวนเงิน  เงินคืน บาท
+        เป็นจำนวนเงิน  {{ me.refund }} บาท
       </p>
     </section>
 
@@ -35,102 +35,6 @@
         ทั้งนี้ต้องเป็นบัญชีที่ผูกกับพร้อมเพย์เลขบัตรประจำตัวประชาชนเท่านั้น
       </p>
     </section>
-    <section class="mt-5">
-      <p class="text-indent font-bold">
-        ข้าพเจ้าขอรับรองว่าบิดามารดาไม่สามารถเบิกเงินสวัสดิการเกี่ยวกับการศึกษาบุตร
-        ตามสิทธิสวัสดิการของข้าราชการของผู้ปกครองได้
-        หากปรากฏภายหลังว่าข้าพเจ้ามีสิทธิเบิกเงินดังกล่าว
-        ข้าพเจ้ายินยอมให้มหาวิทยาลัยเรียกเก็บเงินคืนได้
-        ซึ่งจะต้องชำระให้แล้วเสร็จก่อนถึงจะสามารถลงทะเบียนในภาคการศึกษาถัดไปหรือยื่นขอสำเร็จการศึกษาได้
-      </p>
-    </section>
-    <!-- <section class="mx-8 md:mx-20">
-      <div class="p-5">
-        <div>
-          <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">
-              ธนาคาร <small class="text-red-500">*</small>
-            </div>
-            <div>
-              <select
-                class="py-1 px-2 bg-gray-50 rounded w-full"
-                v-model="form.bank"
-                :disabled="me.status == 1"
-              >
-                <option value="0" :selected="me.bank == 0 || !me.bank">
-                  เลือก
-                </option>
-                <option value="1" :selected="me.bank == 1">
-                  ธนาคารกรุงเทพ จำกัด (มหาชน)
-                </option>
-                <option value="2" :selected="me.bank == 2">
-                  ธนาคารกรุงไทย จำกัด (มหาชน)
-                </option>
-                <option value="3" :selected="me.bank == 3">
-                  ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)
-                </option>
-                <option value="4" :selected="me.bank == 4">
-                  ธนาคารกสิกรไทย จำกัด (มหาชน)
-                </option>
-                <option value="5" :selected="me.bank == 5">
-                  ธนาคารไทยพาณิชย์ จำกัด (มหาชน)
-                </option>
-                <option value="6" :selected="me.bank == 6">ธนาคารออมสิน</option>
-              </select>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">
-              สาขา <small class="text-red-500">*</small>
-            </div>
-            <div>
-              <input
-                type="text"
-                v-model="form.branch"
-                :disabled="me.status == 1"
-                class="py-1 px-2 bg-gray-50 rounded w-full"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">
-              ประเภท <small class="text-red-500">*</small>
-            </div>
-            <div>
-              <select
-                class="py-1 px-2 bg-gray-50 rounded w-full"
-                v-model="form.bookbanktype"
-                :disabled="me.status == 1"
-              >
-                <option value="0" :selected="me.bookbanktype == null">
-                  เลือก
-                </option>
-                <option value="1" :selected="me.bookbanktype == 1">
-                  เงินฝากออมทรัพย์
-                </option>
-                <option value="2" :selected="me.bookbanktype == 2">
-                  เงินฝากกระแสรายวัน
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 mb-3">
-            <div class="font-bold">
-              เลขที่บัญชีเงินฝากธนาคาร <small class="text-red-500">*</small>
-            </div>
-            <div>
-              <input
-                type="text"
-                class="py-1 px-2 bg-gray-50 rounded w-full"
-                v-model="form.bookbank"
-                :disabled="me.status == 1"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-
     <section class="">
       <p class="text-indent">
         และเมื่อมหาวิทยาลัยราชภัฏศรีสะเกษ โอนเงินผ่านระบบ KTB Corporate Online
@@ -193,7 +97,18 @@
       </div>
     </section>
 
-    <section class="mt-5" v-if="me.status != 1">
+    <section class="mt-5">
+      <input type="checkbox" id="access" v-model="access" />
+      <label for="access" class="font-bold">
+        ข้าพเจ้าขอรับรองว่าบิดามารดาไม่สามารถเบิกเงินสวัสดิการเกี่ยวกับการศึกษาบุตร
+        ตามสิทธิสวัสดิการของข้าราชการของผู้ปกครองได้
+        หากปรากฏภายหลังว่าข้าพเจ้ามีสิทธิเบิกเงินดังกล่าว
+        ข้าพเจ้ายินยอมให้มหาวิทยาลัยเรียกเก็บเงินคืนได้
+        ซึ่งจะต้องชำระให้แล้วเสร็จก่อนถึงจะสามารถลงทะเบียนในภาคการศึกษาถัดไปหรือยื่นขอสำเร็จการศึกษาได้
+      </label>
+    </section>
+
+    <section class="mt-5" v-if="me.status != 1 && access">
       <button
         class="px-4 py-2 bg-yellow-400 rounded-lg text-sm mr-3"
         @click="update"
@@ -229,6 +144,7 @@ export default {
       email: null,
     },
     file: null,
+    access: false,
   }),
   computed: {
     ...mapGetters('authen', ['me']),

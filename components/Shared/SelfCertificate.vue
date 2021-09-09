@@ -31,12 +31,7 @@
         </div>
         <div>
           {{
-            access.loantype == 1 ||
-            access.loantype == '1' ||
-            access.loantype == 2 ||
-            access.loantype == '2' ||
-            access.loantype == 3 ||
-            access.loantype == '3'
+            access.loantype && (access.loantype != 0 || access.loantype != '0')
               ? `กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)`
               : `ไม่ได้กู้กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)`
           }}
@@ -67,15 +62,15 @@ export default {
     access() {
       return {
         right:
-          this.getStep.step > 1 || this.me.status != 0
+          this.me.status && this.me.status != 0
             ? this.me.right
             : this.getAccess.right,
         scholarshiptype:
-          this.getStep.step > 1 || this.me.status != 0
+          this.me.status && this.me.status != 0
             ? this.me.scholarshiptype
             : this.getAccess.scholarshiptype,
         loantype:
-          this.getStep.step > 1 || this.me.status != 0
+          this.me.status && this.me.status != 0
             ? this.me.loantype
             : this.getAccess.loantype,
       }
