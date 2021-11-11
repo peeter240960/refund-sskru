@@ -4,7 +4,7 @@
       <div class="mx-auto" style="max-width: 1024px">
         <b>
           <p class="text-lg md:text-2xl">
-            ระบบยืนยันตัวตนเพื่อขอรับสิทธิลดค่าเล่าเรียน ภาคเรียนที่ 1/2564
+            ระบบจ่ายเล่าเรียน ภาคเรียนที่ 2/2564
           </p>
           <small class="text-sm md:text-lg">มหาวิทยาลัยราชภัฏศรีสะเกษ</small>
         </b>
@@ -68,34 +68,6 @@
             text-center
           "
         >
-          <nuxt-link class="py-1 mr-5" to="confirme">
-            <span
-              :class="
-                ($route.path === '/confirme' ||
-                  $route.path === '/unconfirmed' ||
-                  $route.path === '/confirmed') &&
-                'font-bold'
-              "
-            >
-              ยืนยันสิทธิ์
-            </span>
-          </nuxt-link>
-          <button
-            v-if="me.paidtype == 0 && me.status && me.status != 0"
-            class="py-1 mr-5"
-            @click="download"
-          >
-            <span> พิมพ์ใบลงทะเบียน </span>
-          </button>
-          <nuxt-link
-            v-if="me && me.status && me.status == 2"
-            class="py-1 mr-5"
-            to="refund"
-          >
-            <span :class="$route.path === '/refund' && 'font-bold'">
-              ยื่นแบบขอรับเงินคืน
-            </span>
-          </nuxt-link>
           <button class="pb-2 pt-5 sm:hidden">
             <span @click="logout"> ออกจากระบบ </span>
           </button>
@@ -131,7 +103,7 @@
         </div>
       </div>
     </header>
-    <main class="px-2 py-5" id="defaultLayout">
+    <main class="px-2 py-5 min-h-screen" id="defaultLayout">
       <nuxt />
     </main>
   </div>

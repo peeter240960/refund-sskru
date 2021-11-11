@@ -1,7 +1,7 @@
 export default async ({ store, redirect }) => {
     try {
         if (!store.state.authen.user) {
-            await store.dispatch('authen/getMe')
+            redirect('/')
         }
     } catch (err) {
         console.log('err', err?.message);

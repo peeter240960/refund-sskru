@@ -7,42 +7,17 @@ const userSchema = new Schema(
         id: String,
         cid: String,
         sid: String,
-        title: String,
-        firstname: String,
-        lastname: String,
-        faculty: String,
-        program: String,
-        loantype: String,
-        scholarshiptype: String,
-        scholarship: String,
-        tuitionfee: String,
-        cidvalid: String,
-        ciddup: String,
-        prefer: String,
-        level: String,
-        confirm: String,
-        right: String,
-        regisfee: String,
-        entfee: String,
-        govdiscount: String,
-        unidiscount: String,
-        discount: String,
-        tuitionbalance: String,
-        paidtype: String,
-        paid: String,
-        refund: String,
-        timestamp: String,
-        confirmlog: String,
-        macaddress: String,
-        status: String,
-        address: String,
-        bookbank: String,
-        bank: String,
-        branch: String,
-        bookbanktype: String,
-        role: String,
-        tel: String,
-        email: String,
+        role: {
+            type: String,
+            default: 'student'
+        },
+        status: {
+            type: Number,
+            default: 0
+        }
+    },
+    {
+        timestamps: true
     }
 );
 userSchema.plugin(mongoosePaginate)
